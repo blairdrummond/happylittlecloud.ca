@@ -8,3 +8,6 @@ istio istio-$(ISTIO_VERSION):
 
 plan apply: istio-$(ISTIO_VERSION) .terraform
 	TF_VAR_do_token=$$(pass digital-ocean-doctl-token) terraform $@
+
+destroy:
+	TF_VAR_do_token=$$(pass digital-ocean-doctl-token) terraform apply -destroy

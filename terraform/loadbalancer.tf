@@ -6,13 +6,28 @@ resource "digitalocean_certificate" "cert" {
   lifecycle {
     create_before_destroy = true
   }
+
+  depends_on = [digitalocean_domain.happylittlecloud]
 }
 
 # Create a new Load Balancer with TLS termination
 resource "digitalocean_loadbalancer" "happylittlecloud" {
   name        = "happylittlecloud-lb"
-  region      = "nyc3"
-  droplet_tag = "happylittlecloud"
+  region      = "tor1"
+  droplet_tag = "k8s:${digitalocean_kubernetes_cluster.cluster.id}"
+
+  enable_proxy_protocol = true
+  redirect_http_to_https = true
+
+  # droplet_ids = [
+  #   for node in digitalocean_kubernetes_cluster.cluster.node_pool[0].nodes : node.droplet_id
+  # ]
+
+  # Istio ingress gateway health check nodePort
+  healthcheck {
+    port = 30545
+    protocol = "tcp"
+  }
 
   forwarding_rule {
     entry_port     = 443
@@ -28,7 +43,6 @@ resource "digitalocean_loadbalancer" "happylittlecloud" {
 # Create a new domain
 resource "digitalocean_domain" "happylittlecloud" {
   name       = var.domain_name
-  ip_address = digitalocean_loadbalancer.happylittlecloud.ip
 }
 
 # Add an A record to the domain for www.example.com.
