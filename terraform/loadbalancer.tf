@@ -10,6 +10,37 @@ resource "digitalocean_certificate" "cert" {
   depends_on = [digitalocean_domain.happylittlecloud]
 }
 
+locals {
+  ports = {
+    status_port = {
+      "from" = 15021
+      "to" = 32436
+    }
+
+    http2 = {
+      "from" = 80
+      "to" = 30450
+    }
+
+    # https -> http
+    https = {
+      from = 443
+      # "to" = 30124
+      to = 30450
+    }
+
+    tcp_istiod = {
+      from = 15012
+      to = 30374
+    }
+
+    tls = {
+      from = 15443
+      to = 32218
+    }
+  }
+}
+
 # Create a new Load Balancer with TLS termination
 resource "digitalocean_loadbalancer" "happylittlecloud" {
   name        = "happylittlecloud-lb"
@@ -25,19 +56,52 @@ resource "digitalocean_loadbalancer" "happylittlecloud" {
 
   # Istio ingress gateway health check nodePort
   healthcheck {
-    port = 30545
+    port = local.ports.status_port.to
     protocol = "tcp"
   }
 
   forwarding_rule {
-    entry_port     = 443
+    entry_port     = local.ports.https.from
     entry_protocol = "https"
 
-    target_port     = 80
+    target_port     = local.ports.https.to
     target_protocol = "http"
 
     certificate_name = digitalocean_certificate.cert.name
   }
+
+  forwarding_rule {
+    entry_port     = local.ports.http2.from
+    entry_protocol = "http"
+
+    target_port     = local.ports.http2.to
+    target_protocol = "http"
+  }
+
+  forwarding_rule {
+    entry_port     = local.ports.status_port.from
+    entry_protocol = "tcp"
+
+    target_port     = local.ports.status_port.to
+    target_protocol = "tcp"
+  }
+
+  forwarding_rule {
+    entry_port     = local.ports.tls.from
+    entry_protocol = "tcp"
+
+    target_port     = local.ports.tls.to
+    target_protocol = "tcp"
+  }
+
+  forwarding_rule {
+    entry_port     = local.ports.tcp_istiod.from
+    entry_protocol = "tcp"
+
+    target_port     = local.ports.tcp_istiod.to
+    target_protocol = "tcp"
+  }
+
 }
 
 # Create a new domain

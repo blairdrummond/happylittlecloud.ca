@@ -46,16 +46,6 @@ spec:
     repoURL: https://github.com/${var.github_username}/${var.github_repo}.git
     targetRevision: main
     path: manifests
-    directory:
-      recurse: false
-      jsonnet:
-        extVars:
-          - name: ARGOCD_APP_SOURCE_REPO_URL
-            value: $ARGOCD_APP_SOURCE_REPO_URL
-          - name: ARGOCD_APP_SOURCE_TARGET_REVISION
-            value: $ARGOCD_APP_SOURCE_TARGET_REVISION
-          - name: ARGOCD_APP_SOURCE_PATH
-            value: $ARGOCD_APP_SOURCE_PATH
   syncPolicy:
     automated:
       prune: true
