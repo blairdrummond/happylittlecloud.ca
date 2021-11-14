@@ -1,0 +1,7 @@
+- Install Istio with ArgoCD
+- Create ArgoCD Virtual Service
+- Setup SSO with Github
+- Setup AppProjects
+  + Platform Project
+  + DAaaS Project
+  + Geo/FDI/CES Project

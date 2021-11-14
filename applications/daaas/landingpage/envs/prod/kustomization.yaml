@@ -5,5 +5,5 @@ generatorOptions:
   disableNameSuffixHash: true
 
 resources:
-- istio/
-- gateway/gateway.yaml
+- ../../manifest.yaml
+- ../../virtualservice.yaml

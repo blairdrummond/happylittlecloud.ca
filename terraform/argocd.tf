@@ -7,28 +7,40 @@ resource "kubernetes_namespace" "argocd" {
   }
 }
 
-data "http" "argocd_manifest" {
-  url = "https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml"
+resource "helm_release" "argocd" {
+  name       = "argocd"
+  repository = "https://argoproj.github.io/argo-helm"
+  chart      = "argo-cd"
+  version    = "3.26.8"
+
+  timeout = 600
+  cleanup_on_fail = true
+  force_update    = true
+  namespace       = "argocd"
+
+  depends_on = [digitalocean_kubernetes_cluster.cluster, kubernetes_namespace.argocd]
+
+  values = [<<EOF
+server:
+  config:
+    kustomize.buildOptions: "--load-restrictor LoadRestrictionsNone --enable-helm"
+EOF
+  ]
 }
 
-data "kubectl_file_documents" "manifests" {
-    content = data.http.argocd_manifest.body
-}
+# # Dev Cluster
+# resource "kubernetes_secret" "" {
+#   metadata {
+#     name = "docker-cfg"
+#   }
+#
+#   data = {
+#     ".dockerconfigjson" = "${file("${path.module}/.docker/config.json")}"
+#   }
+#
+#   type = "kubernetes.io/dockerconfigjson"
+# }
 
-resource "kubectl_manifest" "argocd" {
-  override_namespace = "argocd"
-
-  count     = length(data.kubectl_file_documents.manifests.documents)
-  yaml_body = element(data.kubectl_file_documents.manifests.documents, count.index)
-
-  depends_on = [kubernetes_namespace.argocd]
-}
-
-# Wait for the ArgoCD CRDs to be defined.
-resource "time_sleep" "wait_1_minute" {
-  depends_on = [kubectl_manifest.argocd]
-  create_duration = "61s"
-}
 
 resource "kubectl_manifest" "root_application" {
   yaml_body = <<YAML
