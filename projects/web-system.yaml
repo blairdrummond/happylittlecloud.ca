@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: web-system
+  namespace: argocd
+spec:
+  destinations:
+  - namespace: 'web-system'
+    server: '*'
+  sourceRepos:
+  - 'https://github.com/blairdrummond/happylittlecloud.ca'
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: web-system
+spec:
+  generators:
+  - list:
+      elements:
+      - app: landing-page
+        cluster: prod
+  template:
+    metadata:
+      name: 'web-system-{{app}}'
+    spec:
+      project: web-system
+      source:
+        repoURL: https://github.com/blairdrummond/happylittlecloud.ca.git
+        targetRevision: HEAD
+        path: applications/web-system/{{app}}/envs/{{cluster}}
+      destination:
+        namespace: web-system
