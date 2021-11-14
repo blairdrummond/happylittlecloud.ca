@@ -10,6 +10,7 @@ spec:
   components:
     ingressGateways:
     - name: istio-ingressgateway
+      namespace: istio-system
       enabled: true
       k8s:
         loadBalancerIP: 157.230.71.101
