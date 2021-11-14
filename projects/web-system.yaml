@@ -3,6 +3,8 @@ kind: AppProject
 metadata:
   name: web-system
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   destinations:
   - namespace: 'web-system'
@@ -14,6 +16,8 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: web-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   generators:
   - list:
