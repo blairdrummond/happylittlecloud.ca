@@ -2,6 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: landing-page
+  namespace: web-system
 spec:
   hosts:
   - happylittlecloud.ca
@@ -12,4 +13,4 @@ spec:
     - destination:
         port:
           number: 80
-        host: landing-page.web.svc.cluster.local
+        host: landing-page.web-system.svc.cluster.local
