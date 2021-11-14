@@ -14,3 +14,8 @@ spec:
           service.beta.kubernetes.io/do-loadbalancer-name: "happylittlecloud"
           service.beta.kubernetes.io/do-loadbalancer-hostname: "happylittlecloud.ca"
           service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: 'true'
+  addonComponents:
+    grafana:
+      enabled: true
+    kiali:
+      enabled: true
