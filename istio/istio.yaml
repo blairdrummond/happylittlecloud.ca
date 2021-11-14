@@ -7,40 +7,11 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   profile: default
-  components:
-    ingressGateways:
-    - name: istio-ingressgateway
-      namespace: istio-system
-      enabled: true
-      k8s:
-        loadBalancerIP: 157.230.71.101
+  values:
+    gateways:
+      istio-ingressgateway:
         serviceAnnotations:
-          kubernetes.digitalocean.com/load-balancer-id: 9edf6229-1c3b-4844-b82a-eadd90f2e95d
-          service.kubernetes.io/do-loadbalancer-disown: "true"
-        ports:
-        - port: 15021
-          targetPort: 15021
-          nodePort: 32436
-          name: status-port
-          protocol: TCP
-        - port: 80
-          targetPort: 8080
-          nodePort: 30450
-          name: http2
-          protocol: TCP
-        - port: 443
-          targetPort: 8443
-          nodePort: 30124
-          name: https
-          protocol: TCP
-        - port: 15012
-          targetPort: 15012
-          nodePort: 30374
-          name: tcp-istiod
-          protocol: TCP
-        # This is the port where sni routing happens
-        - port: 15443
-          targetPort: 15443
-          nodePort: 32218
-          name: tls
-          protocol: TCP
+          service.beta.kubernetes.io/do-loadbalancer-name: "happylittlecloud.ca"
+          service.beta.kubernetes.io/do-loadbalancer-certificate-id: "your-certificate-id"
+          service.beta.kubernetes.io/do-loadbalancer-protocol: "https"
+          service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https: "true"
