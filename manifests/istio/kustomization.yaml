@@ -9,11 +9,12 @@ helmChartInflationGenerator:
 - chartName: base
   chartHome: ./istio-charts/
   releaseName: istio
-- chartName: istio-discovery
-  chartHome: ./istio-charts/istio-control/
-  releaseName: istiod
+#- chartName: istio-discovery
+#  chartHome: ./istio-charts/istio-control/
+#  releaseName: istiod
+
 - chartName: istio-ingress
   chartHome: ./istio-charts/gateways/
   values: ingress-gateway-values.yaml
-- chartName: istio-egress
-  chartHome: ./istio-charts/gateways/
+#- chartName: istio-egress
+#  chartHome: ./istio-charts/gateways/

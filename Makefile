@@ -37,4 +37,4 @@ argo-login:
 		-o jsonpath="{.data.password}" | base64 -d)
 	@echo "=========================="
 	@printf $(ENDC)
-	kubectl port-forward -n argocd svc/argocd-server 8080:80
+	kubectl port-forward -n argocd svc/argocd-server 8081:80

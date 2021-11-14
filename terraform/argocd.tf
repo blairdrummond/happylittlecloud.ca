@@ -64,5 +64,5 @@ spec:
       selfHeal: true
 YAML
 
-  depends_on = [kubectl_manifest.argocd]
+  depends_on = [helm_release.argocd]
 }
