@@ -5,7 +5,6 @@ generatorOptions:
   disableNameSuffixHash: true
 
 resources:
-- ../../manifest.yaml
 - ../../virtualservice.yaml
 
 patchesJson6902:
@@ -17,4 +16,4 @@ patchesJson6902:
   patch: |-
     - op: replace
       path: "/spec/hosts/0"
-      value: happylittlecloud-dev.ca
+      value: argocd.happylittlecloud-dev.ca

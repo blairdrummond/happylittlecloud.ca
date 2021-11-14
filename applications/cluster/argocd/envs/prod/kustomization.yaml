@@ -5,5 +5,4 @@ generatorOptions:
   disableNameSuffixHash: true
 
 resources:
-- ../../manifest.yaml
 - ../../virtualservice.yaml

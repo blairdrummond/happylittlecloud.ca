@@ -2,7 +2,6 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: ingressgateway
-  namespace: istio-system
 spec:
   selector:
     istio: ingressgateway
@@ -13,3 +12,4 @@ spec:
       protocol: HTTP
     hosts:
     - happylittlecloud.ca
+    - argocd.happylittlecloud.ca

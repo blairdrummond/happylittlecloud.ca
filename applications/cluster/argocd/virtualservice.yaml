@@ -1,10 +1,11 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: landing-page
+  name: argocd
+  namespace: argocd
 spec:
   hosts:
-  - happylittlecloud.ca
+  - argocd.happylittlecloud.ca
   gateways:
   - istio-system/ingressgateway
   http:
@@ -12,4 +13,4 @@ spec:
     - destination:
         port:
           number: 80
-        host: landing-page.web.svc.cluster.local
+        host: argocd-server.argocd.svc.cluster.local

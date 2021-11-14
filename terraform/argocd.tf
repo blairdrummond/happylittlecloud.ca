@@ -42,22 +42,32 @@ EOF
 # }
 
 
-resource "kubectl_manifest" "root_application" {
+resource "kubectl_manifest" "istio_application" {
   yaml_body = <<YAML
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${var.github_repo}
+  name: istio
   namespace: argocd
 spec:
   project: default
   destination:
-    namespace: default
+    namespace: istio-system
     server: https://kubernetes.default.svc
   source:
     repoURL: https://github.com/${var.github_username}/${var.github_repo}.git
     targetRevision: main
-    path: manifests
+    path: istio
+  ignoreDifferences:
+  - group: admissionregistration.k8s.io
+    kind: MutatingWebhookConfiguration
+    jsonPointers:
+    - /webhooks/0/clientConfig/caBundle
+  - group: admissionregistration.k8s.io
+    kind: ValidatingWebhookConfiguration
+    jsonPointers:
+    - /webhooks/0/clientConfig/caBundle
+    - /webhooks/0/failurePolicy
   syncPolicy:
     automated:
       prune: true
