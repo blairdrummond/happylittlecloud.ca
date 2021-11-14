@@ -36,4 +36,5 @@ spec:
         targetRevision: HEAD
         path: applications/web-system/{{app}}/envs/{{cluster}}
       destination:
+        server: https://kubernetes.default.svc
         namespace: web-system
