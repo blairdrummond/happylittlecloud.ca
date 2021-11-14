@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: istio-operator
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  project: platform
+  destination:
+    namespace: istio-operator
+    name: in-cluster
+  source:
+    repoURL: 'https://github.com/istio/istio'
+    path: manifests/charts/istio-operator
+    targetRevision: release-1.11
+    helm:
+      parameters:
+        - name: enableCRDTemplates
+          value: 'true'
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: istio-operator
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+  ignoreDifferences:
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      jsonPointers:
+        - /metadata/labels
+        - /spec/names/shortNames

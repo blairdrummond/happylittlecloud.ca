@@ -1,9 +1,9 @@
----
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
   namespace: istio-system
-  name: example-istiocontrolplane
+  name: istio
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
-  profile: demo
-...
+  profile: default

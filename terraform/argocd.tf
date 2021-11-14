@@ -42,6 +42,33 @@ EOF
 # }
 
 
+
+resource "kubectl_manifest" "argocd_projects" {
+  yaml_body = <<YAML
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: projects
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: https://github.com/${var.github_username}/${var.github_repo}.git
+    targetRevision: main
+    path: projects
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+YAML
+
+  depends_on = [helm_release.argocd]
+}
+
+
 resource "kubectl_manifest" "istio_application" {
   yaml_body = <<YAML
 apiVersion: argoproj.io/v1alpha1
