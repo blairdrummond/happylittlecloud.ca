@@ -28,6 +28,22 @@ EOF
   ]
 }
 
+resource "helm_release" "argocd_applicationset" {
+  name       = "argocd-applicationset"
+  repository = "https://argoproj.github.io/argo-helm"
+  chart      = "argocd-applicationset"
+  version    = "1.6.0"
+
+  timeout = 600
+  cleanup_on_fail = true
+  force_update    = true
+  namespace       = "argocd"
+
+  depends_on = [helm_release.argocd]
+}
+
+
+
 # # Dev Cluster
 # resource "kubernetes_secret" "" {
 #   metadata {

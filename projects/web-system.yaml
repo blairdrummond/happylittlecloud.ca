@@ -23,7 +23,7 @@ spec:
   generators:
   - list:
       elements:
-      - app: landing-page
+      - app: landingpage
         cluster: prod
   template:
     metadata:
