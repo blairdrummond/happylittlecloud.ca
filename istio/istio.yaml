@@ -7,18 +7,16 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   profile: default
-  values: |
-    gateways:
-      istio-ingressgateway:
+  components:
+    ingressGateways:
+    - name: istio-ingressgateway
+      enabled: true
+      k8s:
         loadBalancerIP: 157.230.71.101
         serviceAnnotations:
           kubernetes.digitalocean.com/load-balancer-id: 9edf6229-1c3b-4844-b82a-eadd90f2e95d
           service.kubernetes.io/do-loadbalancer-disown: "true"
         ports:
-        ## You can add custom gateway ports in user values overrides, but it must include those ports since helm replaces.
-        # Note that AWS ELB will by default perform health checks on the first port
-        # on this list. Setting this to the health check port will ensure that health
-        # checks always work. https://github.com/istio/istio/issues/12503
         - port: 15021
           targetPort: 15021
           nodePort: 32436
