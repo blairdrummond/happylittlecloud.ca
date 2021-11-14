@@ -4,6 +4,14 @@ metadata:
   name: platform
   namespace: argocd
 spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  destinations:
+  - namespace: '*'
+    server: '*'
+  sourceRepos:
+  - '*'
   roles:
   # A role which provides read-only access to all applications in the project
   - name: read-only
