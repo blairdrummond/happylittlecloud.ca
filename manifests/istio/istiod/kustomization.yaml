@@ -9,3 +9,5 @@ helmChartInflationGenerator:
 - chartName: istio-discovery
   chartHome: ../istio-charts/istio-control/
   releaseName: istiod
+  extraArgs:
+  - --set pilot.autoscaleEnabled=false
