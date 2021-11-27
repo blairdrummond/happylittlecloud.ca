@@ -1,4 +1,4 @@
-apiVersion: certmanager.k8s.io/v1
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: istio-gateway
@@ -11,8 +11,3 @@ spec:
   dnsNames:
   - "*.happylittlecloud.ca"
   - "happylittlecloud.ca"
-  acme:
-    config:
-    - domains:
-      - "*.happylittlecloud.ca"
-      - "happylittlecloud.ca"
