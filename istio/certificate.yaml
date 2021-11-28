@@ -1,15 +1,15 @@
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: istio-gateway
-  namespace: istio-system
-spec:
-  secretName: istio-gateway
-  issuerRef:
-    name: letsencrypt-prod
-    kind: ClusterIssuer
-    group: cert-manager.io
-  commonName: "*.happylittlecloud.ca"
-  dnsNames:
-  - "*.happylittlecloud.ca"
-  - "happylittlecloud.ca"
+# apiVersion: cert-manager.io/v1
+# kind: Certificate
+# metadata:
+#   name: istio-gateway
+#   namespace: istio-system
+# spec:
+#   secretName: istio-gateway
+#   issuerRef:
+#     name: letsencrypt-prod
+#     kind: ClusterIssuer
+#     group: cert-manager.io
+#   commonName: "*.happylittlecloud.ca"
+#   dnsNames:
+#   - "*.happylittlecloud.ca"
+#   - "happylittlecloud.ca"
