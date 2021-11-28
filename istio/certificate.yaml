@@ -7,6 +7,8 @@ spec:
   secretName: istio-gateway
   issuerRef:
     name: letsencrypt-prod
+    kind: ClusterIssuer
+    group: cert-manager.io
   commonName: "*.happylittlecloud.ca"
   dnsNames:
   - "*.happylittlecloud.ca"
