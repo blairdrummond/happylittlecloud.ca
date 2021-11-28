@@ -1,0 +1,32 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: httpbin-gateway
+  namespace: web-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "httpbin.happylittlecloud.ca"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: httpbin
+  namespace: web-system
+spec:
+  hosts:
+  - "httpbin.happylittlecloud.ca"
+  gateways:
+  - istio-system/ingressgateway
+  http:
+  - route:
+    - destination:
+        host: httpbin
+        port:
+          number: 8000

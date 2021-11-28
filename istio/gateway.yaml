@@ -24,4 +24,5 @@ spec:
     hosts:
     - "*"
     tls:
-      mode: PASSTHROUGH
+      mode: SIMPLE
+      credentialName: istio-gateway
