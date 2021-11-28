@@ -25,6 +25,8 @@ spec:
       elements:
       - app: landingpage
         cluster: prod
+      - app: httpbin
+        cluster: prod
   template:
     metadata:
       name: 'web-system-{{app}}'
