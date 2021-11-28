@@ -7,3 +7,4 @@ generatorOptions:
 resources:
 - ../../manifest.yaml
 - ../../virtualservice.yaml
+- ../../destinationrule.yaml

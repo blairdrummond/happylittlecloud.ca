@@ -5,7 +5,7 @@ metadata:
   namespace: web-system
 spec:
   hosts:
-  - happylittlecloud.ca
+  - "*"
   gateways:
   - istio-system/ingressgateway
   http:
