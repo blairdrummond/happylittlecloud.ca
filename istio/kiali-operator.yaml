@@ -11,12 +11,7 @@ spec:
     repoURL: 'https://kiali.org/helm-charts'
     chart: kiali-operator
     targetRevision: 1.35.0
-    helm:
-     parameters:
-      - name : cr.create
-        value : "true"
-      - name : cr.namespace
-        value : "istio-system"
+    helm: {}
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: kiali-operator
