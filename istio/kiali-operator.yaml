@@ -10,11 +10,13 @@ spec:
   source:
     repoURL: 'https://kiali.org/helm-charts'
     chart: kiali-operator
+    targetRevision: 1.35.0
     helm:
-      values: |
-        cr:
-          create: true
-          namespace: istio-system
+     parameters:
+      - name : cr.create
+        value : "true"
+      - name : cr.namespace
+        value : "istio-system"
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: kiali-operator
