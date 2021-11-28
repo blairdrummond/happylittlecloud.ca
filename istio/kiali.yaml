@@ -7,4 +7,5 @@ spec:
   deployment:
     ingress:
       enabled: false
-
+  prometheus:
+    url: http://kube-prometheus-stack-prometheus.monitoring-system.svc.cluster.local:9090

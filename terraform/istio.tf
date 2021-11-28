@@ -12,7 +12,7 @@ metadata:
   name: istio
   namespace: argocd
 spec:
-  project: default
+  project: platform
   destination:
     namespace: istio-system
     server: https://kubernetes.default.svc
