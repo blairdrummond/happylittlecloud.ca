@@ -1,0 +1,8 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  name: s3-bucket-sync-workflow
+spec:
+  entrypoint: s3-bucket-sync
+  workflowTemplateRef:
+    name: s3-bucket-sync

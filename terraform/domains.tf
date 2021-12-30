@@ -3,29 +3,16 @@ resource "digitalocean_domain" "happylittlecloud" {
   name       = var.domain_name
 }
 
-#resource "digitalocean_certificate" "cert" {
-#  name    = "happylittlecloud-cert"
-#  type    = "lets_encrypt"
-#  domains = ["happylittlecloud.ca", "*.happylittlecloud.ca"]
-#
-#  lifecycle {
-#    create_before_destroy = true
-#  }
-#
-#  depends_on = [digitalocean_domain.happylittlecloud]
-#}
+resource "digitalocean_certificate" "cert" {
+  name    = "happylittlecloud-cert"
+  type    = "lets_encrypt"
+  domains = ["happylittlecloud.ca", "*.happylittlecloud.ca"]
 
-data kubernetes_service "istio_ingress" {
-  metadata {
-    name = "istio-ingressgateway"
-    namespace = "istio-system"
+  lifecycle {
+    create_before_destroy = true
   }
-  depends_on = [time_sleep.wait_for_istio]
-}
 
-data digitalocean_loadbalancer "istio_ingress" {
-  # id = data.kubernetes_service.istio_ingress.metadata[0].annotations["kubernetes.digitalocean.com/load-balancer-id"]
-  name = "happylittlecloud"
+  depends_on = [digitalocean_domain.happylittlecloud]
 }
 
 resource "digitalocean_record" "www" {
@@ -39,7 +26,35 @@ resource "digitalocean_record" "www" {
   domain = digitalocean_domain.happylittlecloud.name
   type   = "A"
   name   = each.value
-  value  = data.digitalocean_loadbalancer.istio_ingress.ip
+  value  = digitalocean_loadbalancer.happylittlecloud.ip
+}
+
+
+resource "digitalocean_loadbalancer" "happylittlecloud" {
+  name        = "happylittlecloud-lb"
+  region      = "tor1"
+
+  enable_proxy_protocol = false
+  redirect_http_to_https = true
+
+
+  forwarding_rule {
+    entry_port     = 80
+    entry_protocol = "http"
+
+    target_port     = local.http_node_port
+    target_protocol = "http"
+  }
+
+  forwarding_rule {
+    entry_port     = 443
+    entry_protocol = "https"
+
+    target_port     = local.http_node_port
+    target_protocol = "http"
+
+    certificate_name = digitalocean_certificate.cert.name
+  }
 }
 
 ## Create a new Load Balancer with TLS termination
@@ -106,10 +121,3 @@ resource "digitalocean_record" "www" {
 #}
 #
 #
-## Add an A record to the domain for www.example.com.
-#resource "digitalocean_record" "www" {
-#  domain = digitalocean_domain.happylittlecloud.name
-#  type   = "A"
-#  name   = "www"
-#  value  = digitalocean_loadbalancer.happylittlecloud.ip
-#}

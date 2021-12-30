@@ -1,0 +1,77 @@
+---
+# Source: datasette/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: datasette
+  labels:
+    app.kubernetes.io/name: datasette
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8000
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: datasette
+---
+# Source: datasette/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: datasette
+  labels:
+    app.kubernetes.io/name: datasette
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: datasette
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: datasette
+    spec:
+      securityContext: {}
+      volumes:
+      - name: db
+        emptyDir: {}
+      # These containers are run during pod initialization
+      initContainers:
+      - name: curl
+        image: curlimages/curl
+        args:
+        - $(DB_URL)
+        - -o
+        - /db/music.db
+        env:
+        - name: DB_URL
+          value: http://minio/www/datasette/music.db
+        volumeMounts:
+        - name: db
+          mountPath: "/db"
+      containers:
+        - name: datasette
+          command:
+          - /bin/sh
+          - -c
+          - |
+            datasette install datasette-vega
+            datasette -p 8000 --setting base_url $(BASE_URL) -h 0.0.0.0 /db/*.db
+          env:
+          - name: BASE_URL
+            value: /
+          volumeMounts:
+          - name: db
+            mountPath: /db/
+          securityContext:
+            {}
+          image: "datasetteproject/datasette:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+          - name: http
+            containerPort: 8000
+            protocol: TCP
+          resources:
+            {}

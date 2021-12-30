@@ -24,9 +24,8 @@ spec:
   - list:
       elements:
       - app: landingpage
-        cluster: prod
-      - app: httpbin
-        cluster: prod
+      - app: blairdrummond
+      - app: datasette
   template:
     metadata:
       name: 'web-system-{{app}}'
@@ -36,7 +35,11 @@ spec:
       source:
         repoURL: https://github.com/blairdrummond/happylittlecloud.ca.git
         targetRevision: HEAD
-        path: applications/web-system/{{app}}/envs/{{cluster}}
+        path: applications/web-system/{{app}}
       destination:
         server: https://kubernetes.default.svc
         namespace: web-system
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true

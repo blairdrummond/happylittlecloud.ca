@@ -2,7 +2,7 @@ terraform {
   required_providers {
     digitalocean = {
       source = "digitalocean/digitalocean"
-      version = "~> 2.0"
+      version = "2.16.0"
     }
 
     kubectl = {
@@ -24,12 +24,20 @@ terraform {
       source = "hashicorp/http"
       version = "2.1.0"
     }
+
+    tls = {
+      source = "hashicorp/tls"
+      version = "3.1.0"
+    }
   }
 }
 
 # Configure the DigitalOcean Provider
 provider "digitalocean" {
   token = var.do_token
+
+  spaces_access_id = var.spaces_key
+  spaces_secret_key = var.spaces_secret
 }
 
 provider "kubernetes" {

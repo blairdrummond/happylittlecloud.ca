@@ -7,7 +7,7 @@ resource "digitalocean_kubernetes_cluster" "cluster" {
   node_pool {
     name       = "autoscale-worker-pool"
     # doctl kubernetes options sizes
-    size       = "s-4vcpu-8gb"
+    size       = "s-2vcpu-4gb"
     auto_scale = true
     min_nodes  = 1
     max_nodes  = 3

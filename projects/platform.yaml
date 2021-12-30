@@ -3,6 +3,8 @@ kind: AppProject
 metadata:
   name: platform
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   clusterResourceWhitelist:
   - group: '*'
@@ -20,3 +22,35 @@ spec:
     - p, proj:platform:read-only, applications, get, platform/*, allow
     groups:
     - platform
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: platform
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  generators:
+  - list:
+      elements:
+      - app: shipwright-build
+      - app: argo
+      - app: default
+  template:
+    metadata:
+      name: 'platform-{{app}}'
+      namespace: argocd
+    spec:
+      project: platform
+      source:
+        repoURL: https://github.com/blairdrummond/happylittlecloud.ca.git
+        targetRevision: HEAD
+        path: applications/platform/{{app}}
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{app}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
