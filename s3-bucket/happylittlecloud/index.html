@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<!--
+	Aerial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<link rel="preconnect" href="https://s3.happylittlecloud.ca" crossorigin>
+		<link rel="prefetch" href="https://s3.happylittlecloud.ca">
+		<title>Happy Little Cloud</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="https://s3.happylittlecloud.ca/happylittlecloud/assets/css/main.css" />
+		<!-- <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Caladea"/> -->
+		<link rel="icon" href="https://s3.happylittlecloud.ca/happylittlecloud/images/bobross.jpg">
+		<noscript><link rel="stylesheet" href="https://s3.happylittlecloud.ca/happylittlecloud/assets/css/noscript.css" /></noscript>
+
+		<style>
+		  #header h1 {
+			  font-family: "Caladea";
+			  font-weight: bold;
+			  font-style: oblique; 
+			  color: #f68e99;
+		  }
+		  #index h2 {
+			  font-family: "Caladea";
+			  font-weight: bold;
+			  font-size: 18px;
+			  font-style: oblique; 
+			  color: #5d5d6f;
+		  }
+		  #header p {
+			  font-family: "Caladea";
+			  font-weight: bold;
+			  color: #5d5d6f;
+		  }
+		   a {
+			  font-family: "Caladea";
+			  font-weight: bold;
+			  font-size: 26px;
+			  color: #5d5d6f;
+			  margin-bottom: 15px;
+				margin-left: 24px;
+				margin-right: 24px;
+				display: inline-flex;
+		  }
+
+		  #footer {
+			  background-image: none;
+		  }
+		  #footer span {
+			  font-weight: bolder;
+			  color: #6d6d7f;
+		  }
+
+			details[open] summary ~ * {
+					animation: sweep .5s ease-in-out;
+			}
+			
+			@keyframes sweep {
+					0%    {opacity: 0; }
+					100%  {opacity: 1; }
+			}
+
+			summary {
+
+					opacity: 75%;
+					color: #5d5d6f;
+					font-size: 24px;
+					font-family: "Caladea";
+					font-weight: bold;
+					font-style: oblique; 
+					margin-bottom: 20px;
+			}
+
+			details a {
+					opacity: 75%;
+			}
+                        
+                        summary::marker {
+                                        font-size: 80%;
+                        }
+
+			summary::-webkit-details-marker {
+					font-size: 80%;
+					margin-right: 2px;
+					color: #5d5d6f;
+			}
+			summary:focus {
+					outline-style: none;
+			}
+			article > details > summary {
+					font-size: 28px;
+					margin-top: 16px;
+			}
+			details > p {
+					margin-left: 24px;
+					margin-bottom: 10px;
+			}
+			details details {
+					margin-left: 36px;
+			}
+			details details summary {
+					font-size: 16px;
+			}
+
+		</style>
+	</head>
+	<body class="is-preload">
+		<div id="wrapper">
+			<div id="bg" style="background: #348cb2 url('https://s3.happylittlecloud.ca/happylittlecloud/images/clouds.png') bottom left;"></div>
+			<!-- <div id="overlay"></div> -->
+			<div id="main">
+
+			  <!-- Header -->
+			  <header id="header">
+				<div>
+				  <h1 >Happy Little Cloud</h1>
+				  <p>Powered by Kubernetes!</p>
+				</div>
+				<nav>
+				</nav>
+				<div id="index" style="margin-top: 80px;">
+				  <p><a href="https://blair.happylittlecloud.ca"> About Me </a></p>
+				  <!-- <p><a href="https://dashboard.happylittlecloud.ca"> Dashboard </a></p> -->
+				</div>
+				<!--
+				<div style="margin-top: 40px; min-width: 50px;">
+					<details>
+						<summary>Kubernetes</summary>
+						<a href="https://nextcloud.happylittlecloud.ca"> NextCloud </a>
+						<a href="https://minio.happylittlecloud.ca"> Minio </a>
+						<a href="https://kiali.happylittlecloud.ca"> Kiali </a>
+					</details>
+				</div>
+				-->
+			  </header>
+
+				<!--
+						<p><a href="https://grafana.happylittlecloud.ca"> Grafana </a></p>
+						<p><a href="https://prometheus.happylittlecloud.ca"> Prometheus </a></p>
+				-->
+			  
+			  <!-- Footer -->
+			  <footer id="footer">
+				<span class="copyright">&copy; Blair Drummond, 2022</span>
+			  </footer>
+			</div>
+		</div>
+		<script>
+			window.onload = function() { document.body.classList.remove('is-preload'); }
+			window.ontouchmove = function() { return false; }
+			window.onorientationchange = function() { document.body.scrollTop = 0; }
+		</script>
+	</body>
+</html>
