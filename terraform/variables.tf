@@ -35,3 +35,7 @@ variable "registry_read_token" {
 variable "registry_write_token" {
   description = "Registry write token"
 }
+
+variable "github_token" {
+  description = "Github Read Token"
+}
