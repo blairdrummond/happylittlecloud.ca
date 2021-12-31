@@ -36,6 +36,7 @@ spec:
       elements:
       - app: shipwright-build
       - app: argo
+      - app: argo-events
       - app: default
   template:
     metadata:
