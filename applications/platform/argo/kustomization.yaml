@@ -13,6 +13,18 @@ patchesJson6902:
     - op: add
       path: /rules/0/resources/-
       value: pods/log
+- target:
+    kind: Deployment
+    name: argo-server
+  patch: |-
+    - op: replace
+      path: /spec/template/spec/containers/0/args
+      value:
+      - server
+      - --auth-mode
+      - sso
+
+
 
 # We're doing this in terraform
 patchesStrategicMerge:

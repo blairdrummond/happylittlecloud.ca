@@ -39,3 +39,9 @@ variable "registry_write_token" {
 variable "github_token" {
   description = "Github Read Token"
 }
+variable "github_argo_client_id" {
+  description = "Github OUath Client ID for Argo"
+}
+variable "github_argo_client_secret" {
+  description = "Github OUath Client Secret for Argo"
+}
