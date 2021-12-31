@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
 # Argo Events
 - github.yaml
+- event-bus.yaml
 # Workflow
 - bucket-sync-template.yaml
 - default.yaml
