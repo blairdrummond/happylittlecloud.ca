@@ -56,7 +56,8 @@ resource "kubernetes_config_map" "workflow_controller" {
 EOF
     "sso" = <<EOF
     # This is the root URL of the OIDC provider (required).
-    issuer: https://github.com/login/oauth/
+    # issuer: https://github.com/login/oauth/authorize
+    issuer: https://github.com
     # Some OIDC providers have alternate root URLs that can be included. These should be reviewed carefully. (optional)
     # This defines how long your login is valid for (in hours). (optional)
     # If omitted, defaults to 10h. Example below is 10 days.

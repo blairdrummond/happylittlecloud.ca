@@ -21,7 +21,6 @@ patchesJson6902:
       path: /spec/template/spec/containers/0/args
       value:
       - server
-      - --auth-mode=sso
       - --secure=false
 
 
