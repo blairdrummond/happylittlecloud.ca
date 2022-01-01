@@ -22,6 +22,9 @@ patchesJson6902:
       value:
       - server
       - --secure=false
+    - op: replace
+      path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+      value: HTTP
 
 
 
