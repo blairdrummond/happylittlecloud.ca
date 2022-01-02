@@ -11,4 +11,4 @@
 
 There is no fancy GitOps plumbing here yet (avoids secret management). Just `terraform init; terraform apply`.
 
-This will deploy `istio`, `argocd`, and one argocd Application (this repo!)
+This will deploy `argocd`, and one argocd Application (this repo!)
