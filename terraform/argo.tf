@@ -54,38 +54,6 @@ resource "kubernetes_config_map" "workflow_controller" {
         name: spaces-secret
         key: secret
 EOF
-    "sso" = <<EOF
-    # This is the root URL of the OIDC provider (required).
-    # issuer: https://github.com/login/oauth/authorize
-    issuer: https://github.com
-    # Some OIDC providers have alternate root URLs that can be included. These should be reviewed carefully. (optional)
-    # This defines how long your login is valid for (in hours). (optional)
-    # If omitted, defaults to 10h. Example below is 10 days.
-    sessionExpiry: 240h
-    # This is name of the secret and the key in it that contain OIDC client
-    # ID issued to the application by the provider (required).
-    clientId:
-      name: github-oauth
-      key: client-id
-    # This is name of the secret and the key in it that contain OIDC client
-    # secret issued to the application by the provider (required).
-    clientSecret:
-      name: github-oauth
-      key: client-secret
-    # This is the redirect URL supplied to the provider (optional). It must
-    # be in the form <argo-server-root-url>/oauth2/callback. It must be
-    # browser-accessible. If omitted, will be automatically generated.
-    redirectUrl: https://argo.happylittlecloud.ca/oauth2/callback
-    # Additional scopes to request. Typically needed for SSO RBAC. >= v2.12
-    scopes:
-     - groups
-     - email
-    # RBAC Config. >= v2.12
-    rbac:
-      enabled: false
-    # Skip TLS verify, not recomended in production environments. Useful for testing purposes. >= v3.2.4
-    insecureSkipVerify: false
-EOF
 
   }
 }

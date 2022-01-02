@@ -38,3 +38,15 @@ argo-login:
 	@echo "=========================="
 	@printf $(ENDC)
 	kubectl port-forward -n argocd svc/argocd-server 8000:80
+
+
+argo-workflows-login:
+	@printf $(OKGREEN)
+	@printf $(BOLD)
+	@echo "Argo Workflows Login: http://localhost:2746"
+	@echo "=========================="
+	@printf "Argo Workflows Token is: \n"
+	@kubectl -n argo exec $$(kubectl get pod -n argo | grep argo-server | awk '{print $$1}') -- argo auth token
+	@echo "=========================="
+	@printf $(ENDC)
+	kubectl port-forward -n argo svc/argo-server 2746:2746

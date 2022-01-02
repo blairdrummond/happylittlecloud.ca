@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: s3-sync
+spec:
+  template:
+    serviceAccountName: operate-workflow-sa
+  dependencies:
+    - name: github-push
+      eventSourceName: github
+      eventName: push
+  triggers:
+    - template:
+        name: s3-sync-trigger
+        k8s:
+          operation: create
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                generateName: s3-bucket-sync-
+              workflowTemplateRef:
+                name: s3-bucket-sync
