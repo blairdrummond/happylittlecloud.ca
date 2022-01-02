@@ -20,5 +20,6 @@ spec:
               kind: Workflow
               metadata:
                 generateName: s3-bucket-sync-
-              workflowTemplateRef:
-                name: s3-bucket-sync
+              spec:
+                workflowTemplateRef:
+                  name: s3-bucket-sync
