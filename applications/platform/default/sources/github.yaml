@@ -28,6 +28,6 @@ spec:
       webhookSecret:
         name: github-webhook-secret
         key: secret
-      insecure: false
+      insecure: true
       active: true
       contentType: "json"
