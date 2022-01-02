@@ -3,4 +3,5 @@ kind: Kustomization
 
 resources:
 - github.yaml
+- ingress.yaml
 - event-bus.yaml
