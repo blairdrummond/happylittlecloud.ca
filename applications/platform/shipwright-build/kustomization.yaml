@@ -6,3 +6,12 @@ resources:
 - shipwright.yaml
 # strategies
 - https://raw.githubusercontent.com/shipwright-io/build/main/samples/buildstrategy/kaniko/buildstrategy_kaniko_cr.yaml
+
+# We're doing this in terraform
+patchesStrategicMerge:
+- |-
+  apiVersion: autoscaling/v2beta1
+  kind: HorizontalPodAutoscaler
+  metadata:
+    name: tekton-pipelines-webhook
+  $patch: delete
