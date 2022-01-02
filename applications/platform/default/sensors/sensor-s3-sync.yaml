@@ -11,6 +11,9 @@ spec:
       eventName: happylittlecloud
   triggers:
     - template:
+        name: log-trigger
+        log: {}
+    - template:
         name: s3-sync-trigger
         k8s:
           operation: create
