@@ -38,6 +38,7 @@ spec:
       - app: argo
       - app: argo-events
       - app: default
+      - app: spire
   template:
     metadata:
       name: 'platform-{{app}}'

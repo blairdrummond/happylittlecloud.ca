@@ -1,0 +1,13 @@
+# Service definition for the admission webhook
+apiVersion: v1
+kind: Service
+metadata:
+  name: spire-oidc
+  namespace: spire
+spec:
+  selector:
+    app: spire-server
+  ports:
+    - name: http
+      port: 80
+      targetPort: spire-oidc-port
