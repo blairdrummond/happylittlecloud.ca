@@ -9,12 +9,12 @@ data:
     domain = "spire-oidc.happylittlecloud.ca"
     allow_insecure_scheme = true
     insecure_addr = "0.0.0.0:8000"
-    acme {
-        directory_url = "https://acme-v02.api.letsencrypt.org/directory"
-        cache_dir = "/run/spire"
-        tos_accepted = true
-        email = "blairdrummond@protonmail.com"
-    }
+    #acme {
+    #    directory_url = "https://acme-v02.api.letsencrypt.org/directory"
+    #    cache_dir = "/run/spire"
+    #    tos_accepted = true
+    #    email = "blairdrummond@protonmail.com"
+    #}
     registration_api {
         socket_path = "/run/spire/sockets/registration.sock"
     }
