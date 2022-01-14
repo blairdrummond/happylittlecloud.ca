@@ -24,5 +24,8 @@ test-client:
 	POD=$$(kubectl get pod -n spire -o custom-columns=":metadata.name" | grep client); \
 	kubectl exec -n spire $$POD -- /opt/spire/bin/spire-agent api fetch jwt \
 		-socketPath /run/spire/sockets/agent.sock \
+		-audience TESTING ; \
+	kubectl exec -n spire $$POD -- /opt/spire/bin/spire-agent api fetch jwt \
+		-socketPath /run/spire/sockets/agent.sock \
 		-audience TESTING | grep -A 1 '^token(' \
 	| sed 1d | jq -R 'split(".") | .[1] | @base64d | fromjson'
