@@ -1,9 +1,24 @@
-resource "kubernetes_namespace" "gitlab" {
-  metadata {
-    name = "gitlab"
-  }
-}
-
+# resource "kubernetes_namespace" "gitlab" {
+#   metadata {
+#     name = "gitlab"
+#   }
+# }
+# resource "random_string" "gitlab_minio_secret" {
+#   length           = 32
+#   special          = false
+# }
+#
+# resource "kubernetes_secret" "gitlab_minio_secret" {
+#   metadata {
+#     name = "gitlab-minio-secret"
+#     namespace = "gitlab"
+#   }
+#
+#   data = {
+#     "accessKey" = "minioadmin"
+#     "secretKey" = random_string.gitlab_minio_secret.result
+#   }
+# }
 
 #resource "random_string" "gitea_admin" {
 #  length           = 32

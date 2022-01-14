@@ -24,7 +24,8 @@ spec:
         # Minimal settings
         global:
           minio:
-            enabled: false
+            enabled: true
+            credentials: gitlab-minio-secret
           ingress:
             configureCertmanager: false
             class: "nginx"
