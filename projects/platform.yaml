@@ -39,6 +39,7 @@ spec:
       - app: argo-events
       - app: default
       - app: spire
+      - app: gitea
   template:
     metadata:
       name: 'platform-{{app}}'
