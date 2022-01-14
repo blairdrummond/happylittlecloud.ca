@@ -42,6 +42,8 @@ spec:
         # Use the `ingress` addon, not our Ingress (can't map 22/80/443)
         nginx-ingress:
           enabled: false
+        minio:
+          enabled: false
         # Save resources, only 3 CPU
         prometheus:
           install: false
