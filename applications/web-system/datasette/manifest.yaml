@@ -47,7 +47,7 @@ spec:
         - /db/music.db
         env:
         - name: DB_URL
-          value: http://minio/www/datasette/music.db
+          value: https://s3.happylittlecloud.ca/www/datasette/music.db
         volumeMounts:
         - name: db
           mountPath: "/db"
