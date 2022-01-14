@@ -10,17 +10,11 @@ spec:
   - host: spire-oidc.happylittlecloud.ca
     http:
       paths:
-      - path: /
-        pathType: Prefix
+      - path: /.well-known/openid-configuration
         backend:
           serviceName: spire-oidc
           servicePort: 80
-
-          #- path: /.well-known/openid-configuration
-          #  backend:
-          #    serviceName: spire-oidc
-          #    servicePort: 80
-          #- path: /keys
-          #  backend:
-          #    serviceName: spire-oidc
-          #    servicePort: 80
+      - path: /keys
+        backend:
+          serviceName: spire-oidc
+          servicePort: 80
