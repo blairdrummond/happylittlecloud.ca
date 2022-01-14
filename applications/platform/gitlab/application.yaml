@@ -44,6 +44,7 @@ spec:
           enabled: false
         minio:
           enabled: false
+
         # Save resources, only 3 CPU
         prometheus:
           install: false
