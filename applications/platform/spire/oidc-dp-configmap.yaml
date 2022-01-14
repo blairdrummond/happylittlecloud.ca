@@ -18,3 +18,6 @@ data:
     registration_api {
         socket_path = "/run/spire/sockets/registration.sock"
     }
+    server_api {
+        address = "unix:///tmp/spire-server/private/api.sock"
+    }
