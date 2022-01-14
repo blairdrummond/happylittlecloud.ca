@@ -19,5 +19,5 @@ data:
         socket_path = "/run/spire/sockets/registration.sock"
     }
     server_api {
-        address = "unix:///tmp/spire-server/private/api.sock"
+        address = "unix:///run/spire/sockets/api.sock"
     }
