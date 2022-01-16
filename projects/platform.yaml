@@ -40,6 +40,7 @@ spec:
       - app: default
       - app: spire
       - app: gitea
+      - app: keycloak
       #- app: gitlab
   template:
     metadata:
