@@ -12,15 +12,18 @@ spec:
     repoURL: https://kubernetes.github.io/ingress-nginx
     targetRevision: 4.0.15
     chart: ingress-nginx
-    #         service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https: "true"
-    #         service.beta.kubernetes.io/do-loadbalancer-tls-passthrough: "true"
     helm:
       values: |
         controller:
           service:
             annotations:
               service.beta.kubernetes.io/do-loadbalancer-name: happylittlecloud
-              service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "false"
+              service.beta.kubernetes.io/do-loadbalancer-hostname: workaround.happylittlecloud.ca
+              service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https: "true"
+              service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "true"
+              service.beta.kubernetes.io/do-loadbalancer-http-ports: "80"
+              service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
+              service.beta.kubernetes.io/do-loadbalancer-tls-passthrough: "true"
   syncPolicy:
     automated:
       prune: true
