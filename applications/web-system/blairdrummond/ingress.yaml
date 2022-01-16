@@ -8,7 +8,12 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /bdrummond/index.html
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/upstream-vhost: s3.happylittlecloud.ca
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
+  tls:
+  - hosts:
+    - "blair.happylittlecloud.ca"
+    secretName: blair-tls
   rules:
   - host: "blair.happylittlecloud.ca"
     http:
