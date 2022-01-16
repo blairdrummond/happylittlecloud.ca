@@ -6,7 +6,8 @@ metadata:
 spec:
   instances: 1
   externalAccess:
-    enabled: false
+    enabled: true
+    host: keycloak.happylittlecloud.ca
   externalDatabase:
     enabled: true
   podDisruptionBudget:
