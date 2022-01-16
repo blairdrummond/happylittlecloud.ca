@@ -1,0 +1,177 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keycloak
+  namespace: argocd
+spec:
+  destination:
+    namespace: keycloak
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 6.0.0
+    chart: keycloak
+    helm:
+      values: |
+          ## Keycloak authentication parameters
+          ## ref: https://github.com/bitnami/bitnami-docker-keycloak#admin-credentials
+          ##
+          auth:
+            createAdminUser: true
+            ## @param auth.adminUser Keycloak administrator user
+            ##
+            adminUser: admin
+            ## @param auth.adminPassword Keycloak administrator password for the new user
+            ##
+            adminPassword: ""
+            ## @param auth.managementUser Wildfly management user
+            ##
+            managementUser: manager
+            ## @param auth.managementPassword Wildfly management password
+            ##
+            managementPassword: ""
+            ## @param auth.existingSecret An already existing secret containing auth info
+            ## e.g:
+            ## existingSecret:
+            ##   name: mySecret
+            ##   keyMapping:
+            ##     admin-password: myPasswordKey
+            ##     management-password: myManagementPasswordKey
+            ##     database-password: myDatabasePasswordKey
+            ##     tls-keystore-password: myTlsKeystorePasswordKey
+            ##     tls-truestore-password: myTlsTruestorePasswordKey
+            ##
+            existingSecret: ""
+            ## @param auth.existingSecretPerPassword Override `existingSecret` and other secret values
+            ## e.g:
+            ## existingSecretPerPassword:
+            ##   keyMapping:
+            ##     adminPassword: KEYCLOAK_ADMIN_PASSWORD
+            ##     managementPassword: KEYCLOAK_MANAGEMENT_PASSWORD
+            ##     databasePassword: password
+            ##     tlsKeystorePassword: JKS_KEYSTORE_TRUSTSTORE_PASSWORD
+            ##     tlsTruststorePassword: JKS_KEYSTORE_TRUSTSTORE_PASSWORD
+            ##   adminPassword:
+            ##     name: keycloak-test2.credentials ## release-name
+            ##   managementPassword:
+            ##     name: keycloak-test2.credentials
+            ##   databasePassword:
+            ##     name: keycloak.pocwatt-keycloak-cluster.credentials
+            ##   tlsKeystorePassword:
+            ##     name: keycloak-test2.credentials
+            ##   tlsTruststorePassword:
+            ##     name: keycloak-test2.credentials
+            ##
+            existingSecretPerPassword: {}
+            ## TLS encryption parameters
+            ## ref: https://github.com/bitnami/bitnami-docker-keycloak#tls-encryption
+            ##
+          ## @param proxyAddressForwarding Enable Proxy Address Forwarding
+          ## ref: https://www.keycloak.org/docs/latest/server_installation/#_setting-up-a-load-balancer-or-proxy
+          ##
+          proxyAddressForwarding: false
+
+          ## @param configuration Keycloak Configuration. Auto-generated based on other parameters when not specified
+          ## Specify content for standalone-ha.xml
+          ## NOTE: This will override configuring Keycloak based on environment variables (including those set by the chart)
+          ## The standalone-ha.xml is auto-generated based on other parameters when this parameter is not specified
+          ##
+          ## Example:
+          ## configuration: |-
+          ##    foo: bar
+          ##    baz:
+          ##
+          configuration: ""
+          ## @param existingConfigmap Name of existing ConfigMap with Keycloak configuration
+          ## NOTE: When it's set the configuration parameter is ignored
+          ##
+          existingConfigmap: ""
+          ## @param extraStartupArgs Extra default startup args
+          ##
+          extraStartupArgs: ""
+          ## @param initdbScripts Dictionary of initdb scripts
+          ## Specify dictionary of scripts to be run at first boot
+          ## ref: https://github.com/bitnami/bitnami-docker-keycloak#initializing-a-new-instance
+          ## Example:
+          ## initdbScripts:
+          ##   my_init_script.sh: |
+          ##      #!/bin/bash
+          ##      echo "Do something."
+          ##
+          initdbScripts: {}
+          ## @param initdbScriptsConfigMap ConfigMap with the initdb scripts (Note: Overrides `initdbScripts`)
+          ##
+          initdbScriptsConfigMap: ""
+          service:
+            type: ClusterIP
+
+          ## Ingress configuration
+          ##
+          ingress:
+            enabled: true
+            ingressClassName: "nginx"
+            hostname: auth.happylittlecloud.ca
+            tls: true
+            annotations:
+              kubernetes.io/ingress.class: nginx
+              cert-manager.io/cluster-issuer: letsencrypt-prod
+          networkPolicy:
+            enabled: true
+            ## @param networkPolicy.allowExternal Don't require client label for connections
+            ## The Policy model to apply. When set to false, only pods with the correct
+            ## client label will have network access to the ports Keycloak is listening
+            ## on. When true, Keycloak will accept connections from any source
+            ## (with the correct destination port).
+            ##
+            allowExternal: true
+            ## @param networkPolicy.additionalRules Additional NetworkPolicy rules
+            ## Note that all rules are OR-ed.
+            ## Example:
+            ## additionalRules:
+            ##   - matchLabels:
+            ##       - role: frontend
+            ##   - matchExpressions:
+            ##       - key: role
+            ##         operator: In
+            ##         values:
+            ##           - frontend
+            ##
+            additionalRules: {}
+
+          ## @section Database parameters
+
+          ## PostgreSQL chart configuration
+          ## ref: https://github.com/bitnami/charts/blob/master/bitnami/postgresql/values.yaml
+          ##
+          postgresql:
+            ## @param postgresql.enabled Deploy a PostgreSQL server to satisfy the applications database requirements
+            ##
+            enabled: true
+            ## @param postgresql.postgresqlUsername Keycloak PostgreSQL user (has superuser privileges if username is `postgres`)
+            ## ref: https://github.com/bitnami/bitnami-docker-postgresql/blob/master/README.md#setting-the-root-password-on-first-run
+            ##
+            postgresqlUsername: bn_keycloak
+            ## @param postgresql.postgresqlPassword Keycloak PostgreSQL password - ignored if existingSecret is provided
+            ## Defaults to a random 10-character alphanumeric string if not set
+            ## ref: https://github.com/bitnami/bitnami-docker-postgresql/blob/master/README.md#setting-the-root-password-on-first-run
+            ##
+            postgresqlPassword: ""
+            ## @param postgresql.postgresqlDatabase Name of the database to create
+            ## ref: https://github.com/bitnami/bitnami-docker-postgresql/blob/master/README.md#creating-a-database-on-first-run
+            ##
+            postgresqlDatabase: bitnami_keycloak
+            ## @param postgresql.existingSecret Use an existing secret file with the PostgreSQL password
+            ##
+            existingSecret: ""
+            ## Enable persistence using Persistent Volume Claims
+            ## ref: https://kubernetes.io/docs/user-guide/persistent-volumes
+            ##
+            persistence:
+              ## @param postgresql.persistence.enabled Enable PostgreSQL persistence using PVC
+              ##
+              enabled: true
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
