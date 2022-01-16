@@ -110,7 +110,6 @@ spec:
           ##
           ingress:
             enabled: true
-            ingressClassName: "nginx"
             hostname: auth.happylittlecloud.ca
             tls: true
             annotations:
