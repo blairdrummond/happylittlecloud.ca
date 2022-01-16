@@ -35,6 +35,7 @@ spec:
   - list:
       elements:
       - app: cert-manager
+      - app: nginx
       - app: shipwright-build
       - app: argo
       - app: argo-events
