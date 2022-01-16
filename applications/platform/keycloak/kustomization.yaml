@@ -8,3 +8,4 @@ resources:
 - rbac/
 - operator.yaml
 - keycloak.yaml
+- keycloak-http.yaml
