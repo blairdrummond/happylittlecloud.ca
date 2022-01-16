@@ -8,6 +8,7 @@ spec:
   externalAccess:
     enabled: true
     host: keycloak.happylittlecloud.ca
+    tlsTermination: passthrough
   externalDatabase:
     enabled: true
   podDisruptionBudget:
