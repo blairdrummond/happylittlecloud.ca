@@ -21,7 +21,6 @@ spec:
             annotations:
               service.beta.kubernetes.io/do-loadbalancer-name: happylittlecloud
               service.beta.kubernetes.io/do-loadbalancer-hostname: "workaround.happylittlecloud.ca"
-              service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "true"
   syncPolicy:
     automated:
       prune: true
