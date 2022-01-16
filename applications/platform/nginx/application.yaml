@@ -18,6 +18,7 @@ spec:
           service:
             annotations:
               service.beta.kubernetes.io/do-loadbalancer-name: happylittlecloud
+              service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https: "true"
               service.beta.kubernetes.io/do-loadbalancer-hostname: "workaround.happylittlecloud.ca"
               service.beta.kubernetes.io/do-loadbalancer-tls-passthrough: "true"
               service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "true"
