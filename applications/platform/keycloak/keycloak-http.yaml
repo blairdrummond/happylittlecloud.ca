@@ -13,6 +13,6 @@ spec:
     component: keycloak
   ports:
   - name: keycloak
-    protocol: HTTP
+    protocol: TCP
     port: 80
     targetPort: 9990
