@@ -70,7 +70,7 @@ spec:
           ## @param proxyAddressForwarding Enable Proxy Address Forwarding
           ## ref: https://www.keycloak.org/docs/latest/server_installation/#_setting-up-a-load-balancer-or-proxy
           ##
-          proxyAddressForwarding: true
+          proxyAddressForwarding: false
 
           extraEnvVars:
           - name: KEYCLOAK_PROXY_ADDRESS_FORWARDING
@@ -122,7 +122,7 @@ spec:
               kubernetes.io/ingress.class: nginx
               cert-manager.io/cluster-issuer: letsencrypt-prod
           networkPolicy:
-            enabled: true
+            enabled: false
             ## @param networkPolicy.allowExternal Don't require client label for connections
             ## The Policy model to apply. When set to false, only pods with the correct
             ## client label will have network access to the ports Keycloak is listening
