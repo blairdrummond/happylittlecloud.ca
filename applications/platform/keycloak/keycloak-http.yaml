@@ -4,7 +4,7 @@ metadata:
   name: keycloak-http
   namespace: keycloak
   annotations:
-    description: The web server's http port.
+    description: "The web server's http port."
   labels:
     app: keycloak
 spec:
