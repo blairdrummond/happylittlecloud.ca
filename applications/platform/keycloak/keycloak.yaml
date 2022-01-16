@@ -6,7 +6,7 @@ metadata:
 spec:
   instances: 1
   externalAccess:
-    enabled: false
+    enabled: true
   externalDatabase:
     enabled: true
   podDisruptionBudget:
