@@ -145,29 +145,10 @@ spec:
             additionalRules: {}
 
           ## @section Database parameters
-
           postgresql:
             enabled: false
-
           externalDatabase:
-            ## @param externalDatabase.host Host of the external database
-            ##
-            host: ""
-            ## @param externalDatabase.port Database port
-            ##
-            port: 5432
-            ## @param externalDatabase.user non admin username for Keycloak Database
-            ##
-            user: bn_keycloak
-            ## @param externalDatabase.password Database password
-            ##
-            password: ""
-            ## @param externalDatabase.database Database name
-            ##
-            database: bitnami_keycloak
-            ## @param externalDatabase.existingSecret Use an existing secret file with the external PostgreSQL credentials
-            ##
-            existingSecret: ""
+            existingSecret: "keycloak-db-secret"
   syncPolicy:
     automated:
       prune: true
