@@ -115,7 +115,7 @@ spec:
           ## Ingress configuration
           ##
           ingress:
-            enabled: true
+            enabled: false
             hostname: auth.happylittlecloud.ca
             tls: true
             annotations:
