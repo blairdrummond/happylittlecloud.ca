@@ -70,11 +70,11 @@ spec:
           ## @param proxyAddressForwarding Enable Proxy Address Forwarding
           ## ref: https://www.keycloak.org/docs/latest/server_installation/#_setting-up-a-load-balancer-or-proxy
           ##
-          proxyAddressForwarding: false
+          #proxyAddressForwarding: false
 
           extraEnvVars:
-          - name: KEYCLOAK_PROXY_ADDRESS_FORWARDING
-            value: "true"
+          #- name: KEYCLOAK_PROXY_ADDRESS_FORWARDING
+          #  value: "true"
           - name: KEYCLOAK_FRONTEND_URL
             value: "https://auth.happylittlecloud.ca"
 
