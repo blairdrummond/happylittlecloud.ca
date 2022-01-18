@@ -4,22 +4,27 @@ resource "kubernetes_namespace" "keycloak" {
   }
 }
 
-#resource "random_string" "keycloak_admin" {
-#  length           = 32
-#  special          = true
-#}
-#
-#resource "kubernetes_secret" "keycloak_admin_secret" {
-#  metadata {
-#    name = "keycloak-admin-secret"
-#    namespace = "keycloak"
-#  }
-#
-#  data = {
-#    "username" = "admin"
-#    "password" = random_string.keycloak_admin.result
-#  }
-#}
+resource "random_string" "keycloak_admin_password" {
+  length           = 32
+  special          = true
+}
+
+resource "random_string" "keycloak_management_password" {
+  length           = 32
+  special          = true
+}
+
+resource "kubernetes_secret" "keycloak_admin_secret" {
+  metadata {
+    name = "keycloak-admin-secret"
+    namespace = "keycloak"
+  }
+
+  data = {
+    "admin-password" = random_string.keycloak_admin_password.result
+    "management-password" = random_string.keycloak_management_password.result
+  }
+}
 
 resource "digitalocean_database_cluster" "platform_postgres" {
   name       = "keycloak-postgres-cluster"
