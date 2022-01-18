@@ -31,8 +31,8 @@ spec:
           #proxyAddressForwarding: false
 
           extraEnvVars:
-          #- name: KEYCLOAK_PROXY_ADDRESS_FORWARDING
-          #  value: "true"
+          - name: KEYCLOAK_PROXY_ADDRESS_FORWARDING
+            value: "true"
           - name: KEYCLOAK_FRONTEND_URL
             value: "https://auth.happylittlecloud.ca"
 
