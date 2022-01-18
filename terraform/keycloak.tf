@@ -56,10 +56,22 @@ resource "kubernetes_secret" "keycloak_db_secret" {
   }
 
   data = {
-    "POSTGRES_DATABASE" =  digitalocean_database_db.keycloak_db.name
-    "POSTGRES_EXTERNAL_ADDRESS" =  split(":", split("@", digitalocean_database_cluster.platform_postgres.private_uri)[1])[0]
-    "POSTGRES_EXTERNAL_PORT" = digitalocean_database_cluster.platform_postgres.port
-    "POSTGRES_PASSWORD" = digitalocean_database_cluster.platform_postgres.password
-    "POSTGRES_USERNAME" = digitalocean_database_cluster.platform_postgres.user
+    "KEYCLOAK_DATABASE_NAME" =  digitalocean_database_db.keycloak_db.name
+    "KEYCLOAK_DATABASE_HOST" =  split(":", split("@", digitalocean_database_cluster.platform_postgres.private_uri)[1])[0]
+    "KEYCLOAK_DATABASE_PORT" = digitalocean_database_cluster.platform_postgres.port
+    "KEYCLOAK_DATABASE_PASSWORD" = digitalocean_database_cluster.platform_postgres.password
+    "postgresql-password" = digitalocean_database_cluster.platform_postgres.password
+    "KEYCLOAK_DATABASE_USER" = digitalocean_database_cluster.platform_postgres.user
+  }
+}
+
+resource "kubernetes_service" "keycloak-postgres" {
+  metadata {
+    name = "keycloak-postgres"
+    namespace = "keycloak"
+  }
+  spec {
+    type = "ExternalName"
+    external_name = split(":", split("@", digitalocean_database_cluster.platform_postgres.private_uri)[1])[0]
   }
 }
