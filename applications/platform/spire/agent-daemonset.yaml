@@ -116,7 +116,7 @@ spec:
             path: /run/spire/sockets
             type: DirectoryOrCreate
         # This volume is where the socket for kubelet->driver communication lives
-        - name: spiffe-csi-socket-dir
+        - name: spiffe-csi-socket
           hostPath:
             path: /var/lib/kubelet/plugins/csi.spiffe.io
             type: DirectoryOrCreate
