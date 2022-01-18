@@ -6,12 +6,12 @@ resource "kubernetes_namespace" "keycloak" {
 
 resource "random_string" "keycloak_admin_password" {
   length           = 32
-  special          = true
+  special          = false
 }
 
 resource "random_string" "keycloak_management_password" {
   length           = 32
-  special          = true
+  special          = false
 }
 
 resource "kubernetes_secret" "keycloak_admin_secret" {
@@ -33,6 +33,15 @@ resource "digitalocean_database_cluster" "platform_postgres" {
   size       = "db-s-1vcpu-1gb"
   region     = "tor1"
   node_count = 1
+}
+
+resource "digitalocean_database_firewall" "platform_postgres_firewall" {
+  cluster_id = digitalocean_database_cluster.platform_postgres.id
+
+  rule {
+    type  = "k8s"
+    value = digitalocean_kubernetes_cluster.cluster.id
+  }
 }
 
 # In addition to the above arguments, the following attributes are exported:
