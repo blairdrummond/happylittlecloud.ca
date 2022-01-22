@@ -149,9 +149,12 @@ spec:
           #  security:
           #    PASSWORD_COMPLEXITY: spec
 
-          additionalConfigSources: []
-          #   - secret:
-          #       secretName: gitea-app-ini-oauth
+          additionalConfigSources:
+          # Configure Storage backend
+          - secret:
+              secretName: spaces-secret
+          #- secret:
+          #    secretName: gitea-db-secret
           #   - configMap:
           #       name: gitea-app-ini-plaintext
 

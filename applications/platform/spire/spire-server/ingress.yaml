@@ -10,7 +10,7 @@ spec:
   tls:
   - hosts:
     - spire-oidc.happylittlecloud.ca
-    secretName: keycloak-tls
+    secretName: spire-tls
   rules:
   - host: spire-oidc.happylittlecloud.ca
     http:
