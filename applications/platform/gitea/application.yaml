@@ -46,7 +46,7 @@ spec:
             port: 22
             clusterIP: None
         ingress:
-          enabled: true
+          enabled: false
           annotations:
             kubernetes.io/ingress.class: nginx
             cert-manager.io/cluster-issuer: letsencrypt-prod
