@@ -11,14 +11,14 @@ replicas:
   count: 1
 
 patchesJson6902:
-- target:
-    version: v1
-    kind: Deployment
-    name: minio-gateway-opa
-  patch: |-
-    - op: replace
-      path: /spec/template/spec/containers/0/resources
-      value: {}
+#- target:
+#    version: v1
+#    kind: Deployment
+#    name: minio-gateway-opa
+#  patch: |-
+#    - op: replace
+#      path: /spec/template/spec/containers/0/resources
+#      value: {}
 - target:
     version: v1
     kind: StatefulSet
@@ -29,6 +29,12 @@ patchesJson6902:
       value: {}
 
 patchesStrategicMerge:
+- |-
+  apiVersion: networking.istio.io/v1alpha3
+  kind: Deployment
+  metadata:
+    name: minio-gateway-opa
+  $patch: delete
 - |-
   apiVersion: networking.istio.io/v1alpha3
   kind: DestinationRule
