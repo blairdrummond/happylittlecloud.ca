@@ -1,4 +1,8 @@
 
+modules:
+	rm -rf .terraform/modules/
+	terraform init
+
 .terraform: provider.tf
 	terraform init
 

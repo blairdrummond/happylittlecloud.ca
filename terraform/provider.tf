@@ -34,6 +34,11 @@ terraform {
       source = "hashicorp/random"
       version = "3.1.0"
     }
+
+    keycloak = {
+      source = "mrparkers/keycloak"
+      version = "3.6.0"
+    }
   }
 }
 
@@ -68,4 +73,11 @@ provider "helm" {
     token = digitalocean_kubernetes_cluster.cluster.kube_config[0].token
     cluster_ca_certificate = base64decode(digitalocean_kubernetes_cluster.cluster.kube_config[0].cluster_ca_certificate)
   }
+}
+
+provider "keycloak" {
+    client_id     = "admin-cli"
+    username      = "admin"
+    password      = random_string.keycloak_admin_password.result
+    url           = "http://localhost:8080"
 }

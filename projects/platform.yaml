@@ -40,6 +40,7 @@ spec:
       - app: argo
       - app: argo-events
       - app: default
+      - app: minio
       - app: spire
       - app: gitea
       - app: keycloak

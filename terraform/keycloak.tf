@@ -26,23 +26,6 @@ resource "kubernetes_secret" "keycloak_admin_secret" {
   }
 }
 
-resource "digitalocean_database_cluster" "platform_postgres" {
-  name       = "keycloak-postgres-cluster"
-  engine     = "pg"
-  version    = "13"
-  size       = "db-s-1vcpu-1gb"
-  region     = "tor1"
-  node_count = 1
-}
-
-resource "digitalocean_database_firewall" "platform_postgres_firewall" {
-  cluster_id = digitalocean_database_cluster.platform_postgres.id
-
-  rule {
-    type  = "k8s"
-    value = digitalocean_kubernetes_cluster.cluster.id
-  }
-}
 
 # In addition to the above arguments, the following attributes are exported:
 #
@@ -88,4 +71,31 @@ resource "kubernetes_service" "keycloak-postgres" {
     type = "ExternalName"
     external_name = split(":", split("@", digitalocean_database_cluster.platform_postgres.private_uri)[1])[0]
   }
+}
+
+
+# MinIO Realm
+resource "keycloak_realm" "minio_realm" {
+  realm   = "minio"
+  enabled = true
+}
+
+resource "random_string" "keycloak_minio_client_id" {
+  length           = 16
+  special          = false
+}
+
+resource "keycloak_openid_client" "openid_client" {
+  realm_id            = keycloak_realm.minio_realm.id
+  client_id           = random_string.keycloak_minio_client_id.result
+
+  name                = "minio client"
+  enabled             = true
+
+  standard_flow_enabled = true
+
+  access_type         = "CONFIDENTIAL"
+  valid_redirect_uris = [
+    "http://localhost:8080/openid-callback"
+  ]
 }

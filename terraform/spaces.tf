@@ -63,3 +63,32 @@ resource "digitalocean_spaces_bucket" "happylittlecloud_private" {
   region = "nyc3"
 }
 
+
+
+# For Gitea
+resource "digitalocean_spaces_bucket" "happylittlecloud_gitea" {
+  name   = "happylittlecloud-gitea"
+  region = "nyc3"
+}
+
+resource "kubernetes_secret" "spaces_secret_gitea" {
+  metadata {
+    name = "spaces-secret"
+    namespace = "gitea"
+  }
+
+  data = {
+    "storage" = <<EOF
+STORAGE_TYPE=my_minio
+EOF
+    "storage.my_minio" = <<EOF
+   STORAGE_TYPE=minio
+   MINIO_ENDPOINT=${digitalocean_spaces_bucket.happylittlecloud_gitea.region}.digitaloceanspaces.com
+   MINIO_ACCESS_KEY_ID=${var.spaces_key}
+   MINIO_SECRET_ACCESS_KEY=${var.spaces_secret}
+   MINIO_BUCKET=${digitalocean_spaces_bucket.happylittlecloud_gitea.name}
+   MINIO_LOCATION=us-east-1
+   MINIO_USE_SSL=true
+EOF
+  }
+}

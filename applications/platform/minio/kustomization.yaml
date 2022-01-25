@@ -1,0 +1,34 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- https://github.com/blairdrummond/minio-gateway-opa/base
+
+patchesStrategicMerge:
+- |-
+  apiVersion: networking.istio.io/v1alpha3
+  kind: DestinationRule
+  metadata:
+    name: minio-gateway-etcd
+  $patch: delete
+#- |-
+#   apiVersion: apps/v1
+#   kind: Deployment
+#   metadata:
+#     name: minio-gateway
+#   spec:
+#     template:
+#       spec:
+#         containers:
+#           - name: minio
+#             env:
+#               - name: MINIO_IDENTITY_OPENID_CONFIG_URL
+#                 valueFrom:
+#                   secretKeyRef:
+#                     name: minio-gateway-openid-secret
+#                     key: MINIO_IDENTITY_OPENID_CONFIG_URL
+#               - name: MINIO_IDENTITY_OPENID_CLIENT_ID
+#                 valueFrom:
+#                   secretKeyRef:
+#                     name: minio-gateway-openid-secret
+#                     key: MINIO_IDENTITY_OPENID_CLIENT_ID
