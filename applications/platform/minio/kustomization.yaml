@@ -13,7 +13,7 @@ replicas:
 patchesJson6902:
 - target:
     version: v1
-    kind: StatefulSet
+    kind: Deployment
     name: minio-gateway-opa
   patch: |-
     - op: replace
