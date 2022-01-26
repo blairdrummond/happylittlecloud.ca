@@ -67,9 +67,9 @@
 				<div class="inner">
 					<!-- <span class="icon solid major fa-cloud"></span> -->
 					<h1><strong>Blair Drummond</strong></h1>
-					<h1>DevOps stuff;</h1>
-					<h1>previously math student.</h1>
-					<p>I like figuring out problems and operationalizing things!</p>
+					<h1>Kubernetes &#38; DevOps;</h1>
+					<h1>Operationalizing ML.</h1>
+					<p>I like figuring out problems in processes and operationalizing things!</p>
 					 <ul class="actions special">
 					   <li><a href="#seven" class="button scrolly">Contact & Resume</a></li>
 					 </ul>
@@ -86,17 +86,16 @@
 							</header>
 							<p>
 								I do DevOps and Kubernetes platform development work at Statistics Canada; my
-								main project is as a contributor on the <a href="https://github.com/StatCan/daaas">
+								main project is as a lead on the <a href="https://github.com/StatCan/daaas">
 								Advanced Analytics Workspace</a>, a data science platform for internal
-								and external researchers.
+								and external researchers, part of the $41M <a href="https://large-government-of-canada-it-projects.github.io/pdf/8555-421-2460.pdf#page=132"><i>Data Analytics as a Service</i></a> project. I co-presented the platform at <a href="https://www.youtube.com/watch?v=6EQsTvk_tag">the CAMDEA  Digital Forum</a>.
 							</p>
 
 							<p>
-								My home base is in the Data Science Division; a machine learning
-								shop who does consulting for clients inside the federal government. I optimize
-								stuff, push good DevOps practices, and am generally invested in operationalizing
-								machine learning processes and leveraging cloud native methods and technologies.
-								I also do a little data engineering work there.
+								My home base is in the Data Science Division; we're a machine learning
+								shop who does consulting for clients inside of Statcan and the federal government. I do
+								platform enablement & DevOps, I co-founded the Data Engineering Centre of Expertise and served as its first chair,
+								and I work on operationalizing machine learning processes using cloud native methods and technologies.
 							</p>
 
 							<p>
@@ -120,45 +119,35 @@
 					<div class="row gtr-150">
 						<div class="col-6 col-12-medium">
 							<ul class="major-icons">
-								<li><span class="image"><img style="max-width: 220px; max-height:155px; height: auto; width: auto;" src="https://s3.happylittlecloud.ca/bdrummond/images/logos/linux-logo.png"></span></li>
 								<li><span class="image"><img style="max-width: 220px; max-height:155px; height: auto; width: auto;" src="https://s3.happylittlecloud.ca/bdrummond/images/logos/kubernetes-logo.png"></span></li>
-								<li><span class="image"><img style="max-width: 220px; max-height:155px; height: auto; width: auto;" src="https://s3.happylittlecloud.ca/bdrummond/images/logos/bash-logo.png"></span></li>
+								<li><span class="image"><img style="max-width: 220px; max-height:155px; height: auto; width: auto;" src="images/logos/argo-logo.png"></span></li>
 								<li><span class="image"><img style="max-width: 220px; max-height:155px; height: auto; width: auto;" src="https://s3.happylittlecloud.ca/bdrummond/images/logos/git-logo-bw.png"></span></li>
-								<li><span class="image"><img style="max-width: 220px; max-height:155px; height: auto; width: auto;" src="https://s3.happylittlecloud.ca/bdrummond/images/logos/raspberrypi-logo.png"></span></li>
+								<li><span class="image"><img style="max-width: 220px; max-height:155px; height: auto; width: auto;" src="https://s3.happylittlecloud.ca/bdrummond/images/logos/linux-logo.png"></span></li>
+								<li><span class="image"><img style="max-width: 220px; max-height:155px; height: auto; width: auto;" src="https://s3.happylittlecloud.ca/bdrummond/images/logos/bash-logo.png"></span></li>
 								<li><span class="image"><img style="max-width: 220px; max-height:155px; height: auto; width: auto;" src="https://s3.happylittlecloud.ca/bdrummond/images/logos/python-logo.svg"></span></li>
 							</ul>
 						</div>
 						<div class="col-6 col-12-medium">
 							<header class="major">
-							  <h2>Dev &#8594; Prod</h2>
+							  <h2>Operationalizing Machine Learning</h2>
 							</header>
 							<p> I'm in the operationalization group in the division, and I joke
 								that I study Data Scientists, not Data Science --- I'm interested
 								in the design process in machine learning and the lifecycle of ML
-								applications.
+								applications. My division acts as a consultantcy, and has these two problems:
 							</p>
 
-							<p> My first project at Statcan was a satellite imaging PoC
-								which originally took +128gb of RAM and several hours to process a
-								single image. I took it down to less than six gigabytes of RAM and
-								thirty minutes, turning the project around from prohibitively expensive
-								to almost free, and I built the whole ingestion and preprocessing
-								pipeline on <a href="https://www.pachyderm.com/">Pachyderm</a>.
-								The end result will be a pipeline that automatically figures out what
-								crops are growing in agricultural regions of Canada from space.
-							</p>
-
-							<p>
-							  In my other projects and contributions since then, I do a mix of kubernetes
-							  and DevOps work, I help with architecture decisions, and act as a source
-							  of information for the team on Kubernetes, cloud technologies, and
-							  containerized development.
+								<ul>
+									<li>Our mandate is to build machine learning models & techniques and  </li>
+									<li>As a part of a large organization, well known for being <a href="https://federal-field-notes.ca/articles/2021-12-15-paperweight/">a harsh climate for innovation</a>, every component we develop or create a dependency upon needs an excessive amount of paperwork, and many componets require governance around security, accessibility, and internationalization (all aspects which are outside the wheelhouse of Data Science).</li>
+								</ul>
+							<p> I'm in the operationalization group in the division, and I joke
+								To manage the tension between the two requirements, the need for "move fast and break things" prototyping, while also isolating, decoupling, and re-using componets in order to maintain velocity through a process that has heavy governance and many non-machine-learning considerations, I healped co-create our group's
 							</p>
 
 							<p><i>
-							  This website lives on Kubernetes, on
-							  Raspberry Pis in my living room (previously on digital ocean). Is that
-							  <i>necessary?</i> No. Is it <i>fun?</i> Yes.
+								This website lives on Kubernetes, on Digital Ocean, served through a CDN. Is that <i>necessary?</i> No. Is it <i>fun?</i> Yes.
+								A diagram of how it works is <a href="https://s3.happylittlecloud.ca/bdrummond/images/cluster.svg">here</a>.
 							</i></p>
 						</div>
 					</div>
