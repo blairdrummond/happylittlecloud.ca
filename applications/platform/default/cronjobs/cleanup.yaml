@@ -1,0 +1,50 @@
+# Written by @rohank07 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: delete-cr-workflow
+subjects:
+- kind: ServiceAccount
+  name: deleting-workflow
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: delete-workflow
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: delete-workflow
+rules:
+  - apiGroups: ["argoproj.io"]
+    resources: ["workflows"]
+    verbs: ["get", "watch", "list", "delete"]
+---
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: deleting-workflow
+  namespace: default
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: argo-workflow-cleanup
+  namespace: default
+spec:
+  concurrencyPolicy: Forbid
+  schedule: "0 22 * * 1-5"
+  jobTemplate:
+    spec:
+      backoffLimit: 3
+      activeDeadlineSeconds: 600
+      template:
+        spec:
+          serviceAccountName: deleting-workflow
+          restartPolicy: Never
+          containers:
+          - name: argocli
+            image: argoproj/argocli:latest
+            imagePullPolicy: Always
+            args: ["delete", "-l", "workflows.argoproj.io/phase=Succeeded", "-l", "workflows.argoproj.io/completed=true", "--older" ,"21d"]
