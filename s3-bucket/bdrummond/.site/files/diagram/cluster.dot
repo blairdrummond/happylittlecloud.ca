@@ -1,0 +1,46 @@
+digraph "cluster" {
+    LB [label="Digital Ocean Load Balancer with LetsEncrypt Cert",shape=box3d]
+
+	subgraph cluster {
+		style=filled;
+		color=lightblue;
+		label = "Kubernetes Cluster";
+
+    	    NGINX [label="Nginx Ingress Gateway"]
+
+	    subgraph web_system {
+	    	style=filled;
+	    	color=lightgrey;
+
+    	    	Blair [label="Ingress blair.happylittlecloud.ca"]
+    	    	DatasetteSvc [label="Ingress datasette.happylittlecloud.ca"]
+    	    	DatasettePod [label="Datasette Pod", shape=box]
+
+	    	label = "web-system Namespace";
+	    }
+
+    }
+
+    	LB -> NGINX [label="SSL Termination; HTTPS -> HTTP"]
+
+	NGINX -> DatasetteSvc -> DatasettePod
+	NGINX -> Blair
+
+	Blair -> Page [label="Service rewrites route to index.html file in CDN"]
+	Page -> Assets [label="Statically link to assets in CDN"]
+
+    Page [label="This Page", fillcolor="yellow", shape=box, style=filled]
+    Assets [label="This Page's assets", fillcolor="#99dd00", shape=box, style=filled]
+    CDN [label="Content Delivery Network", shape=cylinder]
+    S3 [label="Digital Ocean Spaces (S3)", shape=cylinder]
+    GIT [label="Git Repo", shape=folder]
+
+    Page -> CDN [label="Page resolved to file in CDN"]
+    Page -> Assets [label="Page contains hrefs to static assets in CDN"]
+    Assets -> CDN [label="static assets pulled from CDN"]
+
+    S3 -> CDN [label="CDN Cache populated from Spaces Bucket"]
+
+    GIT -> S3 [label="An Argo Event+Workflow syncs the S3 bucket on new commits"]
+	
+}

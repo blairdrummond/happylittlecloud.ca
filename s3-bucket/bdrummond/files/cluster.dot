@@ -1,0 +1,116 @@
+digraph "cluster" {
+
+
+	subgraph cluster_do {
+		style=filled;
+		fillcolor="#0069ff";
+		color="black";
+		fontsize="16pt";
+		label = "Digital Ocean";
+
+		DNS [label="A Records: happylittlecloud.ca, *.happylittlecloud.ca",shape=box3d,style=filled,fillcolor=white]
+		LB [label="Digital Ocean Load Balancer with LetsEncrypt Cert",shape=box3d,style=filled,fillcolor=white]
+		DNS -> LB
+
+		subgraph cluster_spaces {
+			style=filled;
+			color=black;
+			fillcolor=white;
+			label = "Digital Ocean Spaces + CDN (S3/Ceph)";
+			S3 [label="Bucket: s3.happylittlecloud.ca", shape=cylinder]
+			CDN [label="Content Delivery Network", shape=cylinder]
+			{rank = same; S3; CDN;}
+
+			S3 -> CDN [label="Geo-distributed edge-cache"]
+
+			S3 -> bdrummond
+			S3 -> www
+
+			bdrummond -> Page
+			bdrummond -> Assets
+
+			bdrummond [label="bdrummond/: website assets", shape=folder]
+			www [label="www/: resumes and other shared content", shape=folder]
+		
+			Page [label="index.html: This Page", fillcolor="yellow", shape=box, style=filled]
+			Assets [label="*.{css,js,png,jpg,svg,etc}: Page assets", fillcolor="#99dd00", shape=box, style=filled]
+			{rank = same; Page; Assets;}
+			Page -> Assets [label="Page contains hrefs to static assets in CDN"]
+		}
+
+		LB -> NGINX [label="SSL Termination; HTTPS -> HTTP"]
+		subgraph cluster {
+			style=filled;
+			color=black;
+			fillcolor=lightblue;
+			label = "Kubernetes Cluster";
+
+			NGINX [label="Service: Nginx Ingress Gateway\nType: LoadBalancer"]
+
+			subgraph cluster_web_system {
+				style=filled;
+				fillcolor=lightgreen;
+				color=black;
+
+				Blair [label="Ingress: blair.happylittlecloud.ca"]
+				PageLink [label="s3.happylittlecloud.ca/bdrummond/index.html", shape=rpromoter,fillcolor=yellow,style=filled]
+
+				DatasetteSvc [label="Ingress: datasette.happylittlecloud.ca"]
+				DatasettePod [label="Datasette Pod", shape=box]
+
+				label = "web-system Namespace";
+			}
+
+			NGINX -> DatasetteSvc -> DatasettePod
+			NGINX -> Blair
+			Blair -> PageLink [label="nginx rewrite: /*"]
+
+			subgraph cluster_default {
+				style=filled;
+				fillcolor=lightgreen;
+				color=black;
+
+				Git [label="Github Repo: blairdrummond/happylittlecloud.ca", shape=folder, style=filled, fillcolor=white]
+				EventURL [label="Ingress: events.happylittlecloud.ca"]
+				{rank = min; Git; EventURL;}
+
+				Source [label="eventsources.argoproj.io: Github"]
+				SourcePod [label="Github EventSource Pod", shape=box]
+				Bus [label="eventbus.argoproj.io: EventBus"]
+				BusPod [label="EventBus Pod",shape=box]
+				Sensor [label="sensors.argoproj.io: S3-Sync"]
+				SensorPod [label="S3-Sync Sensor Pod",shape=box]
+
+
+				{rank=same; Source; Bus; Sensor; Source -> Bus -> Sensor [style=invis];}
+				Source -> SourcePod
+				Bus -> BusPod
+				Sensor -> SensorPod
+
+				Workflow [label="Argo Workflow: s3-sync, mc mirror and flush CDN",shape=cds,style=filled,fillcolor=orange]
+
+				EventURL -> Source 
+				SourcePod -> Bus [label="Push Event into Bus"]
+				Bus -> Sensor [label="Read from Bus"]
+				SensorPod -> Workflow [label="Create Workflow",style=dashed]
+
+				Source -> Git [label="Configure webhook"]
+				Git -> EventURL [label="Webhook trigger on push"]
+
+				label = "default Namespace (Argo Events)";
+			}
+
+			NGINX -> EventURL
+		}
+
+		Workflow -> Git [label="clone repo",style=dashed]
+		Workflow -> S3 [label="Mirror Git Folder",style=dashed]
+		Workflow -> CDN [label="Flush CDN",style=dashed]
+
+		/* Blair -> Page [label="nginx rewrite:\n/* -> bdrummond/index.html\nfile in CDN"] */
+
+		Page [label="This Page", fillcolor="yellow", shape=box, style=filled]
+		Assets [label="This Page's assets", fillcolor="#99dd00", shape=box, style=filled]
+
+	}	
+}
