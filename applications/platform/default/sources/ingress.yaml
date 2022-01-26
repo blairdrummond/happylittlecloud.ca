@@ -4,8 +4,13 @@ metadata:
   name: github-webhook
   namespace: default
   annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     kubernetes.io/ingress.class: nginx
 spec:
+  tls:
+  - hosts:
+    - events.happylittlecloud.ca
+    secretName: argo-events-tls
   rules:
   - host: "events.happylittlecloud.ca"
     http:
