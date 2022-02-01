@@ -4,8 +4,8 @@ kind: Kustomization
 namespace: minio
 
 resources:
-- https://github.com/blairdrummond/minio-gateway-opa/base
-#- ../../../../minio-gateway-opa/base
+#- https://github.com/blairdrummond/minio-gateway-opa/base
+- ../../../../minio-gateway-opa/base
 
 replicas:
 - name: minio-gateway-opa
@@ -37,33 +37,22 @@ patchesStrategicMerge:
      template:
        spec:
          affinity:
-           podAntiAffinity:
-             preferredDuringSchedulingIgnoredDuringExecution:
-               - podAffinityTerm:
-                   labelSelector:
-                     matchLabels:
-                       app.kubernetes.io/name: minio-gateway
-                       app.kubernetes.io/instance: minio-gateway-etcd
-                   # Edit this
-                   namespaces:
-                     - "minio"
-                   topologyKey: kubernetes.io/hostname
-                 weight: 1
+           podAntiAffinity: {}
          containers:
-           - name: etcd
+           - name: minio
              env:
                - name: MY_POD_NAME
                  valueFrom:
                    fieldRef:
                      fieldPath: metadata.name
                - name: ETCD_ADVERTISE_CLIENT_URLS
-                 value: http://$(MY_POD_NAME).minio-gateway-etcd-headless:2379,http://minio-gateway-etcd:2379
+                 value: http://$(MY_POD_NAME).minio-gateway-etcd-headless.minio.svc.cluster.local:2379,http://minio-gateway-etcd.minio.svc.cluster.local:2379
 
                - name: ETCD_INITIAL_ADVERTISE_PEER_URLS
-                 value: "http://$(MY_POD_NAME).minio-gateway-etcd-headless:2380"
+                 value: "http://$(MY_POD_NAME).minio-gateway-etcd-headless.minio.svc.cluster.local:2380"
 
                - name: ETCD_INITIAL_CLUSTER
-                 value: "minio-gateway-etcd-0=http://minio-gateway-etcd-0.minio-gateway-etcd-headless:2380,minio-gateway-etcd-1=http://minio-gateway-etcd-1.minio-gateway-etcd-headless:2380,minio-gateway-etcd-2=http://minio-gateway-etcd-2.minio-gateway-etcd-headless:2380"
+                 value: "minio-gateway-etcd-0=http://minio-gateway-etcd-0.minio-gateway-etcd-headless.minio.svc.cluster.local:2380,minio-gateway-etcd-1=http://minio-gateway-etcd-1.minio-gateway-etcd-headless.minio.svc.cluster.local:2380,minio-gateway-etcd-2=http://minio-gateway-etcd-2.minio-gateway-etcd-headless.minio.svc.cluster.local:2380"
 
                - name: ETCD_CLUSTER_DOMAIN
                  value: minio-gateway-etcd-headless
