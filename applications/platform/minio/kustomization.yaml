@@ -22,6 +22,17 @@ patchesJson6902:
     - op: replace
       path: /spec/template/spec/containers/0/resources
       value: {}
+- target:
+    version: v1
+    kind: Deployment
+    name: minio-gateway
+  patch: |-
+    - op: add
+      path: /spec/template/spec/containers/0/env/-
+      value:
+        name: MINIO_SERVER_URL
+        value: https://minio-api.happylittlecloud.ca
+
 
 patchesStrategicMerge:
 - |-
