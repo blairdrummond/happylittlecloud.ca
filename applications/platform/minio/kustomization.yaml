@@ -32,6 +32,11 @@ patchesJson6902:
       value:
         name: MINIO_SERVER_URL
         value: https://minio-api.happylittlecloud.ca
+    - op: add
+      path: /spec/template/spec/containers/0/env/-
+      value:
+        name: MINIO_BROWSER_REDIRECT_URL
+        value: https://minio-console.happylittlecloud.ca
 
 
 patchesStrategicMerge:
