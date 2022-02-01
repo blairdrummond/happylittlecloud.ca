@@ -5,6 +5,8 @@ namespace: minio
 
 resources:
 - https://github.com/blairdrummond/minio-gateway-opa/base
+- ingress.yaml
+
 #- ../../../../minio-gateway-opa/base
 
 replicas:
