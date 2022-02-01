@@ -37,6 +37,22 @@ patchesJson6902:
       value:
         name: MINIO_BROWSER_REDIRECT_URL
         value: https://minio-console.happylittlecloud.ca
+    - op: add
+      path: /spec/template/spec/containers/0/env/-
+      value:
+        name: MINIO_ROOT_USER
+        valueFrom:
+          secretKeyRef:
+            name: spaces-secret
+            key: accessKey
+    - op: add
+      path: /spec/template/spec/containers/0/env/-
+      value:
+        name: MINIO_ROOT_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: spaces-secret
+            key: secretKey
 
 
 patchesStrategicMerge:
