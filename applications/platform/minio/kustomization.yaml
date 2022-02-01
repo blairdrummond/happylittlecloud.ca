@@ -4,8 +4,8 @@ kind: Kustomization
 namespace: minio
 
 resources:
-#- https://github.com/blairdrummond/minio-gateway-opa/base
-- ../../../../minio-gateway-opa/base
+- https://github.com/blairdrummond/minio-gateway-opa/base
+#- ../../../../minio-gateway-opa/base
 
 replicas:
 - name: minio-gateway-opa
