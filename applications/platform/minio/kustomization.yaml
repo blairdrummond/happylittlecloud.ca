@@ -40,9 +40,15 @@ patchesStrategicMerge:
            podAntiAffinity:
              preferredDuringSchedulingIgnoredDuringExecution:
                - podAffinityTerm:
+                   labelSelector:
+                     matchLabels:
+                       app.kubernetes.io/name: minio-gateway
+                       app.kubernetes.io/instance: minio-gateway-etcd
                    # Edit this
                    namespaces:
                      - "minio"
+                   topologyKey: kubernetes.io/hostname
+                 weight: 1
          containers:
            - name: etcd
              env:
