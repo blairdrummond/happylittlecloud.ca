@@ -39,7 +39,7 @@ patchesStrategicMerge:
          affinity:
            podAntiAffinity: {}
          containers:
-           - name: minio
+           - name: etcd
              env:
                - name: MY_POD_NAME
                  valueFrom:
