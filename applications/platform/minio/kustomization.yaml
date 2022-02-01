@@ -5,20 +5,13 @@ namespace: minio
 
 resources:
 - https://github.com/blairdrummond/minio-gateway-opa/base
+#- ../../../../minio-gateway-opa/base
 
 replicas:
 - name: minio-gateway-opa
   count: 0
 
 patchesJson6902:
-#- target:
-#    version: v1
-#    kind: Deployment
-#    name: minio-gateway-opa
-#  patch: |-
-#    - op: replace
-#      path: /spec/template/spec/containers/0/resources
-#      value: {}
 - target:
     version: v1
     kind: StatefulSet
@@ -35,6 +28,40 @@ patchesStrategicMerge:
   metadata:
     name: minio-gateway-etcd
   $patch: delete
+- |-
+   apiVersion: apps/v1
+   kind: StatefulSet
+   metadata:
+     name: minio-gateway-etcd
+   spec:
+     template:
+       spec:
+         affinity:
+           podAntiAffinity:
+             preferredDuringSchedulingIgnoredDuringExecution:
+               - podAffinityTerm:
+                   # Edit this
+                   namespaces:
+                     - "minio"
+         containers:
+           - name: etcd
+             env:
+               - name: MY_POD_NAME
+                 valueFrom:
+                   fieldRef:
+                     fieldPath: metadata.name
+               - name: ETCD_ADVERTISE_CLIENT_URLS
+                 value: http://$(MY_POD_NAME).minio-gateway-etcd-headless:2379,http://minio-gateway-etcd:2379
+
+               - name: ETCD_INITIAL_ADVERTISE_PEER_URLS
+                 value: "http://$(MY_POD_NAME).minio-gateway-etcd-headless:2380"
+
+               - name: ETCD_INITIAL_CLUSTER
+                 value: "minio-gateway-etcd-0=http://minio-gateway-etcd-0.minio-gateway-etcd-headless:2380,minio-gateway-etcd-1=http://minio-gateway-etcd-1.minio-gateway-etcd-headless:2380,minio-gateway-etcd-2=http://minio-gateway-etcd-2.minio-gateway-etcd-headless:2380"
+
+               - name: ETCD_CLUSTER_DOMAIN
+                 value: minio-gateway-etcd-headless
+
 #- |-
 #   apiVersion: apps/v1
 #   kind: Deployment
