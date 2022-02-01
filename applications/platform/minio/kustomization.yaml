@@ -37,22 +37,6 @@ patchesJson6902:
       value:
         name: MINIO_BROWSER_REDIRECT_URL
         value: https://minio-console.happylittlecloud.ca
-    - op: add
-      path: /spec/template/spec/containers/0/env/-
-      value:
-        name: MINIO_ROOT_USER
-        valueFrom:
-          secretKeyRef:
-            name: spaces-secret
-            key: accessKey
-    - op: add
-      path: /spec/template/spec/containers/0/env/-
-      value:
-        name: MINIO_ROOT_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: spaces-secret
-            key: secretKey
 
 
 patchesStrategicMerge:
@@ -91,24 +75,34 @@ patchesStrategicMerge:
          #      - name: ETCD_CLUSTER_DOMAIN
          #        value: minio-gateway-etcd-headless
 
-#- |-
-#   apiVersion: apps/v1
-#   kind: Deployment
-#   metadata:
-#     name: minio-gateway
-#   spec:
-#     template:
-#       spec:
-#         containers:
-#           - name: minio
-#             env:
-#               - name: MINIO_IDENTITY_OPENID_CONFIG_URL
-#                 valueFrom:
-#                   secretKeyRef:
-#                     name: minio-gateway-openid-secret
-#                     key: MINIO_IDENTITY_OPENID_CONFIG_URL
-#               - name: MINIO_IDENTITY_OPENID_CLIENT_ID
-#                 valueFrom:
-#                   secretKeyRef:
-#                     name: minio-gateway-openid-secret
-#                     key: MINIO_IDENTITY_OPENID_CLIENT_ID
+- |-
+   apiVersion: apps/v1
+   kind: Deployment
+   metadata:
+     name: minio-gateway
+   spec:
+     template:
+       spec:
+         containers:
+           - name: minio
+             env:
+               - name: MINIO_ROOT_USER
+                 valueFrom:
+                   secretKeyRef:
+                     name: spaces-secret
+                     key: accessKey
+               - name: MINIO_ROOT_PASSWORD
+                 valueFrom:
+                   secretKeyRef:
+                     name: spaces-secret
+                     key: secretKey
+               #- name: MINIO_IDENTITY_OPENID_CONFIG_URL
+               #  valueFrom:
+               #    secretKeyRef:
+               #      name: minio-gateway-openid-secret
+               #      key: MINIO_IDENTITY_OPENID_CONFIG_URL
+               #- name: MINIO_IDENTITY_OPENID_CLIENT_ID
+               #  valueFrom:
+               #    secretKeyRef:
+               #      name: minio-gateway-openid-secret
+               #      key: MINIO_IDENTITY_OPENID_CLIENT_ID
