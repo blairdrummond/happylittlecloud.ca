@@ -79,5 +79,5 @@ provider "keycloak" {
     client_id     = "admin-cli"
     username      = "admin"
     password      = random_string.keycloak_admin_password.result
-    url           = "http://localhost:8080"
+    url           = "https://auth.happylittlecloud.ca"
 }

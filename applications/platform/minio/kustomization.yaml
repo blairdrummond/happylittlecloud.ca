@@ -96,13 +96,13 @@ patchesStrategicMerge:
                    secretKeyRef:
                      name: spaces-secret
                      key: secretKey
-               #- name: MINIO_IDENTITY_OPENID_CONFIG_URL
-               #  valueFrom:
-               #    secretKeyRef:
-               #      name: minio-gateway-openid-secret
-               #      key: MINIO_IDENTITY_OPENID_CONFIG_URL
-               #- name: MINIO_IDENTITY_OPENID_CLIENT_ID
-               #  valueFrom:
-               #    secretKeyRef:
-               #      name: minio-gateway-openid-secret
-               #      key: MINIO_IDENTITY_OPENID_CLIENT_ID
+               - name: MINIO_IDENTITY_OPENID_CONFIG_URL
+                 valueFrom:
+                   secretKeyRef:
+                     name: minio-oidc-config
+                     key: MINIO_IDENTITY_OPENID_CONFIG_URL
+               - name: MINIO_IDENTITY_OPENID_CLIENT_ID
+                 valueFrom:
+                   secretKeyRef:
+                     name: minio-oidc-config
+                     key: MINIO_IDENTITY_OPENID_CLIENT_ID
