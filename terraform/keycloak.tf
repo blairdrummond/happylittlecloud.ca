@@ -103,8 +103,9 @@ resource "keycloak_openid_client" "openid_client" {
 
   access_type         = "CONFIDENTIAL"
   valid_redirect_uris = [
-    "http://localhost:8080/openid-callback",
-    "https://minio-console.happylittlecloud.ca/openid-callback"
+    "*"
+    #"http://localhost:8080/openid-callback",
+    #"https://minio-console.happylittlecloud.ca/openid-callback"
   ]
 
   # Seconds
@@ -192,6 +193,6 @@ resource "kubernetes_secret" "minio_oidc_config" {
   data = {
     "MINIO_IDENTITY_OPENID_CONFIG_URL" = "https://auth.${var.domain_name}/auth/realms/${keycloak_realm.minio_realm.id}/.well-known/openid-configuration"
     "MINIO_IDENTITY_OPENID_CLIENT_ID" = keycloak_openid_client.openid_client.id
-    #"MINIO_IDENTITY_OPENID_CLIENT_SECRET" = random_string.keycloak_minio_client_secret.result
+    "MINIO_IDENTITY_OPENID_CLIENT_SECRET" = random_string.keycloak_minio_client_secret.result
   }
 }

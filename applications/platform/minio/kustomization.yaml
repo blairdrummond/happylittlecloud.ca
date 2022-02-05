@@ -106,3 +106,8 @@ patchesStrategicMerge:
                    secretKeyRef:
                      name: minio-oidc-config
                      key: MINIO_IDENTITY_OPENID_CLIENT_ID
+               - name: MINIO_IDENTITY_OPENID_CLIENT_SECRET
+                 valueFrom:
+                   secretKeyRef:
+                     name: minio-oidc-config
+                     key: MINIO_IDENTITY_OPENID_CLIENT_SECRET
