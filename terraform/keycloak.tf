@@ -91,9 +91,12 @@ resource "random_string" "keycloak_minio_client_secret" {
 }
 
 # https://github.com/minio/minio/blob/master/docs/sts/keycloak.md
+locals {
+  minio_client_id = "minio-${random_string.keycloak_minio_client_id.result}"
+}
 resource "keycloak_openid_client" "openid_client" {
   realm_id            = keycloak_realm.minio_realm.id
-  client_id           = "minio-${random_string.keycloak_minio_client_id.result}"
+  client_id           = local.minio_client_id
   client_secret       = random_string.keycloak_minio_client_secret.result
 
   name                = "minio client"
@@ -138,6 +141,20 @@ resource "keycloak_user" "minio_user" {
     temporary = false
   }
 }
+
+
+resource "kubernetes_secret" "minio_initial_user" {
+  metadata {
+    name = "minio-initial-user"
+    namespace = "minio"
+  }
+
+  data = {
+    "username" = "blairdrummond"
+    "password" = random_string.keycloak_minio_user_password.result
+  }
+}
+
 
 
 resource "keycloak_openid_user_attribute_protocol_mapper" "minio_user_attribute_mapper" {
@@ -192,7 +209,7 @@ resource "kubernetes_secret" "minio_oidc_config" {
 
   data = {
     "MINIO_IDENTITY_OPENID_CONFIG_URL" = "https://auth.${var.domain_name}/auth/realms/${keycloak_realm.minio_realm.id}/.well-known/openid-configuration"
-    "MINIO_IDENTITY_OPENID_CLIENT_ID" = keycloak_openid_client.openid_client.id
+    "MINIO_IDENTITY_OPENID_CLIENT_ID" = local.minio_client_id
     "MINIO_IDENTITY_OPENID_CLIENT_SECRET" = random_string.keycloak_minio_client_secret.result
   }
 }

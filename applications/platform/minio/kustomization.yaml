@@ -7,11 +7,14 @@ resources:
 - https://github.com/blairdrummond/minio-gateway-opa/base
 - ingress.yaml
 
-#- ../../../../minio-gateway-opa/base
+configMapGenerator:
+  - files:
+      - policy.rego
+    name: minio-gateway-opa
 
-replicas:
-- name: minio-gateway-opa
-  count: 0
+#replicas:
+#- name: minio-gateway-opa
+#  count: 0
 
 patchesJson6902:
 - target:
@@ -111,3 +114,5 @@ patchesStrategicMerge:
                    secretKeyRef:
                      name: minio-oidc-config
                      key: MINIO_IDENTITY_OPENID_CLIENT_SECRET
+               - name: MINIO_IAM_OPA_URL
+                 value: http://minio-gateway-opa:8181/v1/data/httpapi/authz
