@@ -15,11 +15,19 @@ configMapGenerator:
       - policy.rego
     name: minio-gateway-opa
 
-#replicas:
-#- name: minio-gateway-opa
-#  count: 0
+replicas:
+- name: minio-gateway-opa
+  count: 1
 
 patchesJson6902:
+- target:
+    version: v1
+    kind: Deployment
+    name: minio-gateway-opa
+  patch: |-
+    - op: replace
+      path: /spec/template/spec/containers/0/resources
+      value: {}
 - target:
     version: v1
     kind: StatefulSet
