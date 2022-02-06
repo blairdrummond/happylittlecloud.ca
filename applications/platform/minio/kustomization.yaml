@@ -7,6 +7,9 @@ resources:
 - https://github.com/blairdrummond/minio-gateway-opa/base
 - ingress.yaml
 
+generatorOptions:
+  disableNameSuffixHash: true
+
 configMapGenerator:
   - files:
       - policy.rego
