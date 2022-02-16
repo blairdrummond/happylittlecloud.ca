@@ -149,10 +149,10 @@ spec:
           #  security:
           #    PASSWORD_COMPLEXITY: spec
 
-          additionalConfigSources:
+          additionalConfigSources: []
           # Configure Storage backend
-          - secret:
-              secretName: spaces-secret
+          # - secret:
+          #     secretName: spaces-secret
           #- secret:
           #    secretName: gitea-db-secret
           #   - configMap:
