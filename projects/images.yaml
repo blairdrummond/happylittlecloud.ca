@@ -46,7 +46,7 @@ spec:
       source:
         repoURL: https://github.com/blairdrummond/happylittlecloud.ca.git
         targetRevision: HEAD
-        path: images/{{app}}
+        path: applications/images/{{app}}
       destination:
         server: https://kubernetes.default.svc
         namespace: shipwright-build
