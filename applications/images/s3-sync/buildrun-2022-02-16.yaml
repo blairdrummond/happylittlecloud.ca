@@ -1,12 +1,9 @@
----
 apiVersion: shipwright.io/v1alpha1
 kind: BuildRun
 metadata:
-  name: s3-sync-2022-02-16
+  name: "2022-02-16"
 spec:
-  buildRef:
-    name: s3-sync
-  serviceAccount:
-    generate: true
+  source:
+    revision: d4ab4447a9c1ded2ac1e3909f03d8a8476382c92
   output:
     image: docker.io/blairdrummond/s3-sync:2022-02-16
