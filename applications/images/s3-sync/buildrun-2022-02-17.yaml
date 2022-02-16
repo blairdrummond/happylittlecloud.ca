@@ -1,0 +1,7 @@
+apiVersion: shipwright.io/v1alpha1
+kind: BuildRun
+metadata:
+  name: "2022-02-17"
+spec:
+  output:
+    image: docker.io/blairdrummond/s3-sync:2022-02-17

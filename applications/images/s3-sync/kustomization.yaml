@@ -6,6 +6,7 @@ namePrefix: "s3-sync-"
 resources:
 - build.yaml
 - buildrun-2022-02-16.yaml
+- buildrun-2022-02-17.yaml
 
 patches:
   - patch: |-
