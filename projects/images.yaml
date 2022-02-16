@@ -1,0 +1,56 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: images
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  clusterResourceWhitelist:
+  - group: shipwright.io
+    kind: BuildRun
+  - group: shipwright.io
+    kind: Build
+  destinations:
+  - namespace: shipwright-build
+    server: '*'
+  sourceRepos:
+  - '*'
+  roles:
+  # A role which provides read-only access to all applications in the project
+  - name: read-only
+    description: Read-only privileges to my-project
+    policies:
+    - p, proj:platform:read-only, applications, get, platform/*, allow
+    groups:
+    - platform
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: images
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  generators:
+  - list:
+      elements:
+      - app: s3-sync
+  template:
+    metadata:
+      name: 'images-{{app}}'
+      namespace: argocd
+    spec:
+      project: images
+      source:
+        repoURL: https://github.com/blairdrummond/happylittlecloud.ca.git
+        targetRevision: HEAD
+        path: images/{{app}}
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: shipwright-build
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true

@@ -1,0 +1,17 @@
+---
+apiVersion: shipwright.io/v1alpha1
+kind: Build
+metadata:
+  name: s3-sync
+  annotations:
+    build.shipwright.io/build-run-deletion: "true"
+spec:
+  source:
+    url: https://github.com/blairdrummond/happylittlecloud.ca
+    contextDir: images/s3-sync
+  strategy:
+    name: kaniko
+    kind: ClusterBuildStrategy
+  dockerfile: Dockerfile
+  output:
+    image: docker.io/blairdrummond/s3-sync
